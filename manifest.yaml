@@ -1,0 +1,11 @@
+---
+applications:
+- name: springboot
+  memory: 1024M
+  instances: 1
+  path: target/root.jar
+  host: myhost1597534862
+  services:
+    - my-postgres
+#  env:
+#    SPRING_PROFILES_DEFAULT: cf
