@@ -8,7 +8,10 @@ $(document).ready(function () {
 		"info" : false
 	});
 
+	$('#editButton').prop('disabled', false);
 	$('#editButton').addClass('disabled');
+
+	$('#deleteButton').prop('disabled', false);
 	$('#deleteButton').addClass('disabled');
 
 	$('#clientsTable tbody').on('click', 'tr', function () {
@@ -18,15 +21,19 @@ $(document).ready(function () {
 
 		if (selectedCount == 1) {
 			$('#editButton').prop('disabled', false);
+			$('#editButton').removeClass('disabled');
 		} else {
 			$('#editButton').prop('disabled', true);
+			$('#editButton').addClass('disabled');
 		}
 
 		if (selectedCount == 0) {
+			$('#deleteButton').prop('disabled', true);
 			$('#deleteButton').addClass('disabled');
 		}
 
 		if (selectedCount > 0) {
+			$('#deleteButton').prop('disabled', false);
 			$('#deleteButton').removeClass('disabled');
 		}
 	});
@@ -60,5 +67,16 @@ $(document).ready(function () {
 		});
 
 		$('#registrationModal').modal('hide');
+	});
+
+	$("#deleteClientsBtn").bind("click", function (event) {
+		event.preventDefault();
+
+
+		$('#clientsTable .selected').each(function () {
+			var id = $(this).find('td').first().html();
+		});
+
+		//$ajax()
 	});
 });

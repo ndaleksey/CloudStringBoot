@@ -2,12 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>Список клиентов</title>
+	<title>Список клиентов111</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 		  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
 </head>
 <body>
+
+<div class="container-fluid">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="index_old.html" th:href="@{/index}">
+			<img src="https://picsum.photos/30"/>
+		</a>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="/clients/all" th:href="@{/clients/all}">Список клиентов</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+</div>
 
 
 <div class="container">
@@ -40,24 +56,27 @@
 
 	<div class="row float-md-right align-bottom">
 		<div class="col-12">
-			<button id="editButton" class="btn btn-dark" type="button"
-					data-toggle="modal" data-target="#clientDetailsModal">
-				<span class="glyphicon glyphicon-pencil"></span>Редактировать
+			<button id="addButton" class="btn btn-dart" type="button" data-toggle="modal"
+					data-target="#clientDetailsModal">Добавить
 			</button>
-			<button id="deleteButton" class="btn btn-dark" type="button">
-				<span class="glyphicon glyphicon-pencil"></span>Удалить
+			<button id="editButton" class="btn btn-dark" type="button" data-toggle="modal"
+					data-target="#clientDetailsModal">Редактировать
+			</button>
+			<button id="deleteButton" class="btn btn-dark" type="button" data-toggle="modal"
+					data-target="#deleteClientsModal">Удалить
 			</button>
 		</div>
 	</div>
 </div>
 
 <!-- Диалог регистрации -->
-<div class="modal fade" id="clientDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+<div class="modal fade" id="clientDetailsModal" tabindex="-1" role="dialog"
+	 aria-labelledby="registrationModalTitleLabel"
 	 aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
+				<h5 class="modal-title" id="registrationModalTitleLabel">Регистрация</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -87,7 +106,7 @@
 
 					<div class="form-group">
 						<label for="birthday" class="col-form-label">Дата рождения</label>
-						<input type='text' id="birthday" />
+						<input type='text' id="birthday"/>
 					</div>
 
 					<div class="form-group">
@@ -112,6 +131,29 @@
 
 					<button class="btn btn-dark" id="update" type="submit">Зарегистрировать</button>
 				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Диалог удаления клиентов -->
+<div class="modal fade" id="deleteClientsModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitleLabel"
+	 aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="deleteModalTitleLabel">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				Вы действительно хотите удалить выбранных клиентов
+			</div>
+			<div class="modal-footer">
+				<button id="deleteClientsBtn" type="button" class="btn btn-primary" data-dismiss="modal">Удалить
+				</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
 			</div>
 		</div>
 	</div>

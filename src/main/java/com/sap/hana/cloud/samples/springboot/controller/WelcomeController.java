@@ -13,8 +13,6 @@ public class WelcomeController {
 
 	@GetMapping(path = "/")
 	public String welcome() {
-		return "clients";
+		return "index";
 	}
-
-
 }
