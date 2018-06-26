@@ -38,6 +38,10 @@ $(document).ready(function () {
 		}
 	});
 
+	$('#editButton').on('click', function (event) {
+		// $('#clientDetailsModal').modal();
+	})
+
 	$("#update").bind("click", function (event) {
 
 		event.preventDefault();
