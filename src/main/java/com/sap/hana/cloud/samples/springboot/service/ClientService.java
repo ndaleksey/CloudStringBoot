@@ -10,4 +10,6 @@ import java.util.List;
 public interface ClientService {
 	void saveClient(Client client);
 	List<Client> getAllClients();
+	void deleteClientById(Long id);
+	void deleteClientByIds(Long[] ids);
 }

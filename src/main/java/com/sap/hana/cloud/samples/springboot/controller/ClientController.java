@@ -6,10 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -34,10 +32,5 @@ public class ClientController {
 	@GetMapping(path = "/list")
 	public ResponseEntity<List<Client>> getAllClients() {
 		return new ResponseEntity<>(service.getAllClients(), HttpStatus.OK);
-	}
-
-	@DeleteMapping(path = "/delete")
-	public String delete(@RequestParam List<String> ids){
-		return "";
 	}
 }

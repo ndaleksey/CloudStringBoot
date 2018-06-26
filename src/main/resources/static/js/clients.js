@@ -3,9 +3,9 @@ $(document).ready(function () {
 	$('#birthday').datepicker();
 
 	var clientsTable = $('#clientsTable').DataTable({
-		"paging" : false,
-		"ordering" : false,
-		"info" : false
+		"paging": false,
+		"ordering": false,
+		"info": false
 	});
 
 	$('#editButton').prop('disabled', false);
@@ -38,7 +38,7 @@ $(document).ready(function () {
 		}
 	});
 
-	$("#update").bind("click", function(event) {
+	$("#update").bind("click", function (event) {
 
 		event.preventDefault();
 
@@ -62,21 +62,36 @@ $(document).ready(function () {
 			dataType: "json",
 			contentType: "application/json; charset=utf-8",
 			success: function () {
-				console.log("УРАА");
+				location.reload();
 			}
 		});
 
-		$('#registrationModal').modal('hide');
+		// $('#registrationModal').modal('hide');
 	});
 
 	$("#deleteClientsBtn").bind("click", function (event) {
 		event.preventDefault();
 
+		var requestUrl = "/clients/delete?";
+		var selectedRows = $('#clientsTable .selected');
 
-		$('#clientsTable .selected').each(function () {
-			var id = $(this).find('td').first().html();
+		if (selectedRows.length == 0) return;
+
+		selectedRows.each(function () {
+			requestUrl = requestUrl.concat("id=" + $(this).find('td').first().html() + "&");
 		});
 
-		//$ajax()
+		// delete last & in request url
+		requestUrl = requestUrl.substr(0, requestUrl.length - 1);
+
+		console.log(requestUrl);
+
+		$.ajax({
+			url: requestUrl,
+			type: "DELETE",
+			success: function () {
+				location.reload();
+			}
+		})
 	});
 });

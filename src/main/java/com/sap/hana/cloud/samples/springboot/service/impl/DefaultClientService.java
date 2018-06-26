@@ -72,4 +72,16 @@ public class DefaultClientService implements ClientService {
 		StreamSupport.stream(repository.findAll().spliterator(), false).forEach(c->clients.add(c));
 		return clients;
 	}
+
+	@Override
+	public void deleteClientById(Long id) {
+		repository.deleteById(id);
+	}
+
+	@Override
+	public void deleteClientByIds(Long[] ids) {
+		for (Long id : ids) {
+			repository.deleteById(id);
+		}
+	}
 }
