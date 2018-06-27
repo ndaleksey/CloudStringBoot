@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.util.Calendar;
+import java.time.LocalDate;
 
 /**
  * Created by Shishkov A.V. on 08.06.18.
@@ -31,7 +31,7 @@ public class Client {
 
 	@Column(name = "birthday")
 	@JsonFormat(pattern = "dd.MM.yyy")
-	private Calendar birthday;
+	private LocalDate birthday;
 
 	@Column(name = "email", nullable = false)
 	@Email(message = "Please provide a valid e-mail")
@@ -90,11 +90,11 @@ public class Client {
 		this.gender = gender;
 	}
 
-	public Calendar getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Calendar birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 
@@ -133,7 +133,7 @@ public class Client {
 	public Client() {
 	}
 
-	public Client(String firstName, String lastName, String middleName, Gender gender, Calendar birthday,
+	public Client(String firstName, String lastName, String middleName, Gender gender, LocalDate birthday,
 				  @Email(message = "Please provide a valid e-mail") String email, String phone, String city) {
 		this.firstName = firstName;
 		this.lastName = lastName;

@@ -3,6 +3,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Список клиентов111</title>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			crossorigin="anonymous"></script>
+
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+			integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+			crossorigin="anonymous"></script>
+
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 		  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
@@ -25,7 +33,6 @@
 	</nav>
 </div>
 
-
 <div class="container">
 	<div class="row">
 		<div class="col-12">
@@ -33,115 +40,127 @@
 				<thead class="thead-dark">
 				<tr>
 					<th>id</th>
-					<th>Имя</th>
-					<th>Фамилия</th>
-					<th>Отчество</th>
+					<th>ФИО</th>
+					<th>Пол</th>
+					<th>Дата рождения</th>
 					<th>E-mail</th>
 					<th>Телефон</th>
+					<th>Город</th>
+					<th>ID карты</th>
+					<th></th>
+					<th></th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr th:each="client : ${clients}">
 					<td th:text="${client.id}"></td>
-					<td th:text="${client.firstName}"></td>
-					<td th:text="${client.lastName}"></td>
-					<td th:text="${client.middleName}"></td>
+					<td th:text="${client.lastName} + ' ' + ${client.firstName} + ' ' + ${client.middleName}"></td>
+					<td th:text="${client.gender}"></td>
+					<td th:text="${#temporals.format(client.birthday, 'dd.MM.yyyy')}"></td>
 					<td th:text="${client.email}"></td>
 					<td th:text="${client.phone}"></td>
+					<td th:text="${client.city}"></td>
+					<td th:text="${client.cardId}"></td>
+					<td>
+						<a class="btn btn-primary editButton" th:href="@{/clients/find/(id=${client.id})}">
+							Изменить</a>
+					</td>
+					<!--<td>
+						<a id="deleteButton" class="btn btn-danger">Удалить</a>
+					</td>-->
 				</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
 
-	<div class="row float-md-right align-bottom">
-		<div class="col-12">
-			<a id="editButton" class="btn btn-primary" href="">Изменить</a>
-
-			<!--<button id="addButton" class="btn btn-primary" type="button" data-toggle="modal"
-					data-target="#clientDetailsModal">Добавить
-			</button>
-			<button id="editButton" class="btn btn-dark" type="button" data-toggle="modal"
-					data-target="#clientDetailsModal">Редактировать
-			</button>
-			<button id="deleteButton" class="btn btn-dark" type="button" data-toggle="modal"
-					data-target="#deleteClientsModal">Удалить
-			</button>-->
-		</div>
-	</div>
-</div>
-
-<!-- Диалог сохранения/изменения клиента -->
-<form th:action="@{/clients/save}" method="post">
-	<div class="modal fade" id="clientDetailsModal" tabindex="-1" role="dialog"
-		 aria-labelledby="registrationModalTitleLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="registrationModalTitleLabel">Регистрация</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form>
-						<div class="form-group">
-							<label for="firstName" class="col-form-label">Имя</label>
-							<input id="firstName" class="form-control" type="input" placeholder="Имя">
+	<!-- Диалог сохранения/изменения клиента -->
+	<div class="saveDialog">
+		<form th:action="@{/clients/save}" method="post" enctype="application/x-www-form-urlencoded">
+			<div class="modal fade" id="clientDetailsModal" tabindex="-1" role="dialog"
+				 aria-labelledby="clientDetailsLabel"
+				 aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="clientDetailsLabel">Информация о клиенте</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
 						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label for="id" class="col-form-label">ID</label>
+								<input id="id" name="id" value="" class="form-control" type="input" placeholder="Id">
+							</div>
 
-						<div class="form-group">
-							<label for="lastName" class="col-form-label">Фамилия</label>
-							<input id="lastName" class="form-control" type="input" placeholder="Фамилия">
+							<div class="form-group">
+								<label for="firstName" class="col-form-label">Имя</label>
+								<input id="firstName" name="firstName" value="" class="form-control" type="input"
+									   placeholder="Имя">
+							</div>
+
+							<div class="form-group">
+								<label for="lastName" class="col-form-label">Фамилия</label>
+								<input id="lastName"  name="lastName" value="" class="form-control" type="input"
+									   placeholder="Фамилия">
+							</div>
+
+							<div class="form-group">
+								<label for="middleName" class="col-form-label">Отчество</label>
+								<input id="middleName"  name="middleName" value="" class="form-control" type="input"
+									   placeholder="Отчество">
+							</div>
+
+							<div class="form-group">
+								<label class="col-form-label">Пол</label><br>
+
+								<input id="male" type="radio" name="gender" checked="checked">
+								<label for="male">М</label>
+
+								<input id="female" type="radio" name="gender">
+								<label for="female">Ж</label>
+							</div>
+
+							<div class="form-group">
+								<label for="birthday" class="col-form-label">Дата рождения</label>
+								<input id="birthday" name="birthday" value="" type="text"/>
+							</div>
+
+							<div class="form-group">
+								<label for="email" class="col-form-label">E-mail</label>
+								<input id="email"  name="email" value="" class="form-control" type="input"
+									   placeholder="E-mail">
+							</div>
+
+							<div class="form-group">
+								<label for="phone" class="col-form-label">Телефон</label>
+								<input id="phone" name="phone" value="" class="form-control" type="text"
+									   placeholder="Телефон">
+							</div>
+
+							<div class="form-group">
+								<label for="city" class="col-form-label">Город</label>
+								<input id="city"  name="city" value="" class="form-control" type="text"
+									   placeholder="Город">
+							</div>
+
+							<div class="form-group">
+								<label for="cardId" class="col-form-label">Id карты</label>
+								<input id="cardId"  name="cardId" value="" class="form-control" type="text"
+									   placeholder="Id карты">
+							</div>
 						</div>
-
-						<div class="form-group">
-							<label for="middleName" class="col-form-label">Отчество</label>
-							<input id="middleName" class="form-control" type="input" placeholder="Отчество">
+						<div class="modal-footer">
+							<input class="btn btn-dark" type="submit" value="Сохранить"/>
+							<button class="btn btn-dark" type="button" data-dismiss="modal">Отмена</button>
 						</div>
-
-						<div class="form-group">
-							<label class="col-form-label">Пол</label><br>
-
-							<input id="male" type="radio" name="sex" checked="checked">
-							<label for="male">М</label>
-
-							<input id="female" type="radio" name="sex">
-							<label for="female">Ж</label>
-						</div>
-
-						<div class="form-group">
-							<label for="birthday" class="col-form-label">Дата рождения</label>
-							<input type='text' id="birthday"/>
-						</div>
-
-						<div class="form-group">
-							<label for="email" class="col-form-label">E-mail</label>
-							<input id="email" class="form-control" type="input" placeholder="E-mail">
-						</div>
-
-						<div class="form-group">
-							<label for="phone" class="col-form-label">Телефон</label>
-							<input id="phone" class="form-control" type="text" placeholder="Телефон">
-						</div>
-
-						<div class="form-group">
-							<label for="city" class="col-form-label">Город</label>
-							<input id="city" class="form-control" type="text" placeholder="Город">
-						</div>
-
-						<div class="form-group">
-							<label for="cardId" class="col-form-label">Id карты</label>
-							<input id="cardId" class="form-control" type="text" placeholder="Id карты">
-						</div>
-
-						<button class="btn btn-dark" id="update" type="submit">Зарегистрировать</button>
-					</form>
+					</div>
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
-</form>
+</div>
 
 <!-- Диалог удаления клиентов -->
 <div class="modal fade" id="deleteClientsModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitleLabel"
@@ -166,23 +185,16 @@
 	</div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-		crossorigin="anonymous"></script>
 
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+<!--<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>-->
 
 <script src="../static/js/clients.js" th:src="@{/js/clients.js}"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-		crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
-
 
 </body>
 </html>

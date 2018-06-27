@@ -9,7 +9,9 @@ import java.util.List;
  */
 public interface ClientService {
 	void saveClient(Client client);
-	List<Client> getAllClients();
+	Client findById(Long id);
+	List<Client> findAll();
+	List<Client> findByPage(int page, int size);
 	void deleteClientById(Long id);
 	void deleteClientByIds(Long[] ids);
 }
