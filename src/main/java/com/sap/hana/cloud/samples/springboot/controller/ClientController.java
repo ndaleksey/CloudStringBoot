@@ -27,8 +27,15 @@ public class ClientController {
 	}
 
 	@PostMapping(path = "/save", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-	public String addClient(Client client, BindingResult result) {
-		service.saveClient(client);
+	public @ResponseBody Client addClient(Client client, BindingResult result) {
+		/*service.saveClient(client);
+		return "redirect:/clients";*/
+		return client;
+	}
+
+	@GetMapping(path = "/delete")
+	public String deleteClient(Long id) {
+		service.deleteClientById(id);
 		return "redirect:/clients";
 	}
 

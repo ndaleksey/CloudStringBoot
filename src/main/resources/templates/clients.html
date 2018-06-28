@@ -35,8 +35,11 @@
 
 <div class="container">
 	<div class="row">
+		<button class="btn btn-success addButton">Добавить</button>
+	</div>
+	<div class="row">
 		<div class="col-12">
-			<table class="table table-striped table-hover" id="clientsTable">
+			<table id="clientsTable" class="table table-striped table-hover">
 				<thead class="thead-dark">
 				<tr>
 					<th>id</th>
@@ -62,12 +65,12 @@
 					<td th:text="${client.city}"></td>
 					<td th:text="${client.cardId}"></td>
 					<td>
-						<a class="btn btn-primary editButton" th:href="@{/clients/find/(id=${client.id})}">
-							Изменить</a>
+						<a class="btn btn-primary editButton" th:href="@{/clients/find/(id=${client.id})}">Изменить</a>
 					</td>
-					<!--<td>
-						<a id="deleteButton" class="btn btn-danger">Удалить</a>
-					</td>-->
+					<td>
+						<a class="btn btn-danger deleteButton"
+						   th:href="@{/clients/delete/(id=${client.id})}">Удалить</a>
+					</td>
 				</tr>
 				</tbody>
 			</table>
@@ -75,7 +78,7 @@
 	</div>
 
 	<!-- Диалог сохранения/изменения клиента -->
-	<div class="saveDialog">
+	<!--<div class="saveDialog">
 		<form th:action="@{/clients/save}" method="post" enctype="application/x-www-form-urlencoded">
 			<div class="modal fade" id="clientDetailsModal" tabindex="-1" role="dialog"
 				 aria-labelledby="clientDetailsLabel"
@@ -102,34 +105,34 @@
 
 							<div class="form-group">
 								<label for="lastName" class="col-form-label">Фамилия</label>
-								<input id="lastName"  name="lastName" value="" class="form-control" type="input"
+								<input id="lastName" name="lastName" value="" class="form-control" type="input"
 									   placeholder="Фамилия">
 							</div>
 
 							<div class="form-group">
 								<label for="middleName" class="col-form-label">Отчество</label>
-								<input id="middleName"  name="middleName" value="" class="form-control" type="input"
+								<input id="middleName" name="middleName" value="" class="form-control" type="input"
 									   placeholder="Отчество">
 							</div>
 
 							<div class="form-group">
 								<label class="col-form-label">Пол</label><br>
 
-								<input id="male" type="radio" name="gender" checked="checked">
+								<input id="male" type="radio" name="gender" value="male" checked="checked">
 								<label for="male">М</label>
 
-								<input id="female" type="radio" name="gender">
+								<input id="female" type="radio" name="gender" value="female">
 								<label for="female">Ж</label>
 							</div>
 
 							<div class="form-group">
 								<label for="birthday" class="col-form-label">Дата рождения</label>
-								<input id="birthday" name="birthday" value="" type="text"/>
+								<input id="birthday" name="birthday" value="10.10.2018" type="text"/>
 							</div>
 
 							<div class="form-group">
 								<label for="email" class="col-form-label">E-mail</label>
-								<input id="email"  name="email" value="" class="form-control" type="input"
+								<input id="email" name="email" value="" class="form-control" type="input"
 									   placeholder="E-mail">
 							</div>
 
@@ -141,45 +144,131 @@
 
 							<div class="form-group">
 								<label for="city" class="col-form-label">Город</label>
-								<input id="city"  name="city" value="" class="form-control" type="text"
+								<input id="city" name="city" value="" class="form-control" type="text"
 									   placeholder="Город">
 							</div>
 
 							<div class="form-group">
 								<label for="cardId" class="col-form-label">Id карты</label>
-								<input id="cardId"  name="cardId" value="" class="form-control" type="text"
+								<input id="cardId" name="cardId" value="" class="form-control" type="text"
 									   placeholder="Id карты">
 							</div>
 						</div>
 						<div class="modal-footer">
-							<input class="btn btn-dark" type="submit" value="Сохранить"/>
-							<button class="btn btn-dark" type="button" data-dismiss="modal">Отмена</button>
+							<input class="btn btn-primary" type="submit" value="Сохранить"/>
+							<button class="btn btn-secondary" type="button" data-dismiss="modal">Отмена</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>-->
+	<div class="saveDialog">
+		<form th:action="@{/clients/save}" method="post">
+			<div class="modal fade" id="clientDetailsModal" tabindex="-1" role="dialog"
+				 aria-labelledby="clientDetailsLabel"
+				 aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="clientDetailsLabel">Информация о клиенте</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label for="id" class="col-form-label">ID</label>
+								<input id="id" name="id" value="" class="form-control" type="input" placeholder="Id">
+							</div>
+
+							<div class="form-group">
+								<label for="firstName" class="col-form-label">Имя</label>
+								<input id="firstName" name="firstName" value="" class="form-control" type="input"
+									   placeholder="Имя">
+							</div>
+
+							<div class="form-group">
+								<label for="lastName" class="col-form-label">Фамилия</label>
+								<input id="lastName" name="lastName" value="" class="form-control" type="input"
+									   placeholder="Фамилия">
+							</div>
+
+							<div class="form-group">
+								<label for="middleName" class="col-form-label">Отчество</label>
+								<input id="middleName" name="middleName" value="" class="form-control" type="input"
+									   placeholder="Отчество">
+							</div>
+
+							<div class="form-group">
+								<label class="col-form-label">Пол</label><br>
+
+								<input id="male" type="radio" name="gender" value="male" checked="checked">
+								<label for="male">М</label>
+
+								<input id="male" type="radio" name="gender" value="female">
+								<label for="male">Ж</label>
+							</div>
+
+							<!--<div class="form-group">
+								<label for="birthday" class="col-form-label">Дата рождения</label>
+								<input id="birthday" name="birthday" value="10.10.2018" type="text"/>
+							</div>-->
+
+							<div class="form-group">
+								<label for="email" class="col-form-label">E-mail</label>
+								<input id="email" name="email" value="" class="form-control" type="input"
+									   placeholder="E-mail">
+							</div>
+
+							<div class="form-group">
+								<label for="phone" class="col-form-label">Телефон</label>
+								<input id="phone" name="phone" value="" class="form-control" type="text"
+									   placeholder="Телефон">
+							</div>
+
+							<div class="form-group">
+								<label for="city" class="col-form-label">Город</label>
+								<input id="city" name="city" value="" class="form-control" type="text"
+									   placeholder="Город">
+							</div>
+
+							<div class="form-group">
+								<label for="cardId" class="col-form-label">Id карты</label>
+								<input id="cardId" name="cardId" value="" class="form-control" type="text"
+									   placeholder="Id карты">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input id="saveDetailsButton" class="btn btn-primary" type="submit" value="Сохранить"/>
+							<button class="btn btn-secondary" type="button" data-dismiss="modal">Отмена</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
-</div>
 
-<!-- Диалог удаления клиентов -->
-<div class="modal fade" id="deleteClientsModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitleLabel"
-	 aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="deleteModalTitleLabel">Modal title</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				Вы действительно хотите удалить выбранных клиентов
-			</div>
-			<div class="modal-footer">
-				<button id="deleteClientsBtn" type="button" class="btn btn-primary" data-dismiss="modal">Удалить
-				</button>
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+	<!-- Диалог удаления клиента -->
+	<div class="deleteDialog">
+		<div class="modal fade" id="deleteClientModal" tabindex="-1" role="dialog"
+			 aria-labelledby="deleteClientModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="deleteClientModalLabel">Удаление клиента</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						Вы действительно хотите удалить клиента?
+					</div>
+					<div class="modal-footer">
+						<a id="deleteRef" href="" class="btn btn-danger">Удалить</a>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

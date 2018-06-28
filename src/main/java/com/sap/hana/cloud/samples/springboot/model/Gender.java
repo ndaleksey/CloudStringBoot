@@ -5,7 +5,7 @@ package com.sap.hana.cloud.samples.springboot.model;
  */
 
 public enum Gender {
-	FEMALE("Ж"), MALE("М");
+	FEMALE("female"), MALE("male");
 	String gender;
 
 	Gender(String gender) {
