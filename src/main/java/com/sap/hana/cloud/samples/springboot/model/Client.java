@@ -48,7 +48,10 @@ public class Client {
 
 	@Column(name = "status", columnDefinition = "smallint")
 	@Enumerated
-	private ClientStatus clientStatus;
+	private ClientStatus status;
+
+	@Column(name = "score")
+	private double score;
 
 	public Long getId() {
 		return id;
@@ -128,6 +131,22 @@ public class Client {
 
 	public void setCardId(String cardId) {
 		this.cardId = cardId;
+	}
+
+	public ClientStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ClientStatus status) {
+		this.status = status;
+	}
+
+	public double getScore() {
+		return score;
+	}
+
+	public void setScore(double score) {
+		this.score = score;
 	}
 
 	public Client() {

@@ -26,7 +26,7 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
-					<a class="nav-link" href="/clients/all" th:href="@{/clients/all}">Список клиентов</a>
+					<a class="nav-link" href="/clients/all" th:href="@{/clients}">Список клиентов</a>
 				</li>
 			</ul>
 		</div>
@@ -50,6 +50,8 @@
 					<th>Телефон</th>
 					<th>Город</th>
 					<th>ID карты</th>
+					<th>Бальный счёт</th>
+					<th>Статус</th>
 					<th></th>
 					<th></th>
 				</tr>
@@ -58,12 +60,18 @@
 				<tr th:each="client : ${clients}">
 					<td th:text="${client.id}"></td>
 					<td th:text="${client.lastName} + ' ' + ${client.firstName} + ' ' + ${client.middleName}"></td>
-					<td th:text="${client.gender}"></td>
+
+					<td
+							th:text="${client.gender==T(com.sap.hana.cloud.samples.springboot.model.Gender).MALE?'М':'Ж'}"></td>
+
 					<td th:text="${#temporals.format(client.birthday, 'dd.MM.yyyy')}"></td>
 					<td th:text="${client.email}"></td>
 					<td th:text="${client.phone}"></td>
 					<td th:text="${client.city}"></td>
 					<td th:text="${client.cardId}"></td>
+					<td th:text="${client.score}"></td>
+					<td
+							th:text="${client.status==T(com.sap.hana.cloud.samples.springboot.model.ClientStatus).ACTIVE?'Активный':'Неактивный'}"></td>
 					<td>
 						<a class="btn btn-primary editButton" th:href="@{/clients/find/(id=${client.id})}">Изменить</a>
 					</td>
@@ -78,91 +86,6 @@
 	</div>
 
 	<!-- Диалог сохранения/изменения клиента -->
-	<!--<div class="saveDialog">
-		<form th:action="@{/clients/save}" method="post" enctype="application/x-www-form-urlencoded">
-			<div class="modal fade" id="clientDetailsModal" tabindex="-1" role="dialog"
-				 aria-labelledby="clientDetailsLabel"
-				 aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="clientDetailsLabel">Информация о клиенте</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<div class="form-group">
-								<label for="id" class="col-form-label">ID</label>
-								<input id="id" name="id" value="" class="form-control" type="input" placeholder="Id">
-							</div>
-
-							<div class="form-group">
-								<label for="firstName" class="col-form-label">Имя</label>
-								<input id="firstName" name="firstName" value="" class="form-control" type="input"
-									   placeholder="Имя">
-							</div>
-
-							<div class="form-group">
-								<label for="lastName" class="col-form-label">Фамилия</label>
-								<input id="lastName" name="lastName" value="" class="form-control" type="input"
-									   placeholder="Фамилия">
-							</div>
-
-							<div class="form-group">
-								<label for="middleName" class="col-form-label">Отчество</label>
-								<input id="middleName" name="middleName" value="" class="form-control" type="input"
-									   placeholder="Отчество">
-							</div>
-
-							<div class="form-group">
-								<label class="col-form-label">Пол</label><br>
-
-								<input id="male" type="radio" name="gender" value="male" checked="checked">
-								<label for="male">М</label>
-
-								<input id="female" type="radio" name="gender" value="female">
-								<label for="female">Ж</label>
-							</div>
-
-							<div class="form-group">
-								<label for="birthday" class="col-form-label">Дата рождения</label>
-								<input id="birthday" name="birthday" value="10.10.2018" type="text"/>
-							</div>
-
-							<div class="form-group">
-								<label for="email" class="col-form-label">E-mail</label>
-								<input id="email" name="email" value="" class="form-control" type="input"
-									   placeholder="E-mail">
-							</div>
-
-							<div class="form-group">
-								<label for="phone" class="col-form-label">Телефон</label>
-								<input id="phone" name="phone" value="" class="form-control" type="text"
-									   placeholder="Телефон">
-							</div>
-
-							<div class="form-group">
-								<label for="city" class="col-form-label">Город</label>
-								<input id="city" name="city" value="" class="form-control" type="text"
-									   placeholder="Город">
-							</div>
-
-							<div class="form-group">
-								<label for="cardId" class="col-form-label">Id карты</label>
-								<input id="cardId" name="cardId" value="" class="form-control" type="text"
-									   placeholder="Id карты">
-							</div>
-						</div>
-						<div class="modal-footer">
-							<input class="btn btn-primary" type="submit" value="Сохранить"/>
-							<button class="btn btn-secondary" type="button" data-dismiss="modal">Отмена</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
-	</div>-->
 	<div class="saveDialog">
 		<form th:action="@{/clients/save}" method="post">
 			<div class="modal fade" id="clientDetailsModal" tabindex="-1" role="dialog"
@@ -177,26 +100,26 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<div class="form-group">
+							<div class="form-group" hidden>
 								<label for="id" class="col-form-label">ID</label>
 								<input id="id" name="id" value="" class="form-control" type="input" placeholder="Id">
 							</div>
 
 							<div class="form-group">
 								<label for="firstName" class="col-form-label">Имя</label>
-								<input id="firstName" name="firstName" value="" class="form-control" type="input"
+								<input id="firstName" name="firstName" value="" class="form-control" type="text"
 									   placeholder="Имя">
 							</div>
 
 							<div class="form-group">
 								<label for="lastName" class="col-form-label">Фамилия</label>
-								<input id="lastName" name="lastName" value="" class="form-control" type="input"
+								<input id="lastName" name="lastName" value="" class="form-control" type="text"
 									   placeholder="Фамилия">
 							</div>
 
 							<div class="form-group">
 								<label for="middleName" class="col-form-label">Отчество</label>
-								<input id="middleName" name="middleName" value="" class="form-control" type="input"
+								<input id="middleName" name="middleName" value="" class="form-control" type="text"
 									   placeholder="Отчество">
 							</div>
 
@@ -206,24 +129,25 @@
 								<input id="male" type="radio" name="gender" value="male" checked="checked">
 								<label for="male">М</label>
 
-								<input id="male" type="radio" name="gender" value="female">
+								<input id="female" type="radio" name="gender" value="female">
 								<label for="male">Ж</label>
 							</div>
 
-							<!--<div class="form-group">
+							<div class="form-group">
 								<label for="birthday" class="col-form-label">Дата рождения</label>
-								<input id="birthday" name="birthday" value="10.10.2018" type="text"/>
-							</div>-->
+								<input id="birthday" class="form-control" name="birthday" value=""
+									   type="date"/>
+							</div>
 
 							<div class="form-group">
 								<label for="email" class="col-form-label">E-mail</label>
-								<input id="email" name="email" value="" class="form-control" type="input"
+								<input id="email" name="email" value="" class="form-control" type="email"
 									   placeholder="E-mail">
 							</div>
 
 							<div class="form-group">
 								<label for="phone" class="col-form-label">Телефон</label>
-								<input id="phone" name="phone" value="" class="form-control" type="text"
+								<input id="phone" name="phone" value="" class="form-control" type="tel"
 									   placeholder="Телефон">
 							</div>
 
@@ -237,6 +161,16 @@
 								<label for="cardId" class="col-form-label">Id карты</label>
 								<input id="cardId" name="cardId" value="" class="form-control" type="text"
 									   placeholder="Id карты">
+							</div>
+
+							<div class="form-group">
+								<label class="col-form-label">Пол</label><br>
+
+								<input id="active" type="radio" name="status" value="" checked="checked">
+								<label for="active">Активный</label>
+
+								<input id="inactive" type="radio" name="status" value="">
+								<label for="inactive">Неактивный</label>
 							</div>
 						</div>
 						<div class="modal-footer">

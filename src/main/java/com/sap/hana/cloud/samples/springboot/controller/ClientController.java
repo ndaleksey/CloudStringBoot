@@ -2,9 +2,7 @@ package com.sap.hana.cloud.samples.springboot.controller;
 
 import com.sap.hana.cloud.samples.springboot.model.Client;
 import com.sap.hana.cloud.samples.springboot.service.ClientService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,10 +27,10 @@ public class ClientController {
 		return "clients";
 	}
 
-	@PostMapping(path = "/save", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-	public @ResponseBody Client addClient(Client client, BindingResult result) {
-		/*service.saveClient(client);
-		return "redirect:/clients";*/
+	@PostMapping(path = "/save", consumes = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public Client addClient(@RequestBody Client client, BindingResult result) {
+		service.saveClient(client);
 		return client;
 	}
 
@@ -48,15 +46,9 @@ public class ClientController {
 		return service.findById(id);
 	}
 
-	@DeleteMapping(path = "/delete/{id}")
+	/*@DeleteMapping(path = "/delete/{id}")
 	public String delete(@PathVariable(value = "id") Long id) {
 		service.deleteClientById(id);
 		return "redirect:/clients";
-	}
-
-	@PostMapping(path = "/add")
-	public ResponseEntity<Client> addClient(@RequestBody Client client) {
-		service.saveClient(client);
-		return new ResponseEntity<>(client, HttpStatus.OK);
-	}
+	}*/
 }

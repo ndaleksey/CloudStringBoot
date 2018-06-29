@@ -5,15 +5,5 @@ package com.sap.hana.cloud.samples.springboot.model;
  */
 
 public enum Gender {
-	FEMALE("female"), MALE("male");
-	String gender;
-
-	Gender(String gender) {
-		this.gender = gender;
-	}
-
-	@Override
-	public String toString() {
-		return gender;
-	}
+	FEMALE, MALE
 }
