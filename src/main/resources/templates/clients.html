@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>Список клиентов111</title>
+	<title>Список клиентов</title>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
 			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 			crossorigin="anonymous"></script>
@@ -26,7 +26,7 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
-					<a class="nav-link" href="/clients/all" th:href="@{/clients}">Список клиентов</a>
+					<a class="btn btn-primary" href="/clients/all" th:href="@{/clients}">Список клиентов</a>
 				</li>
 			</ul>
 		</div>
@@ -164,13 +164,13 @@
 							</div>
 
 							<div class="form-group">
-								<label class="col-form-label">Пол</label><br>
+								<label class="col-form-label">Статус</label><br>
 
-								<input id="active" type="radio" name="status" value="" checked="checked">
-								<label for="active">Активный</label>
-
-								<input id="inactive" type="radio" name="status" value="">
+								<input id="inactive" type="radio" name="status" value="" checked="checked">
 								<label for="inactive">Неактивный</label>
+
+								<input id="active" type="radio" name="status" value="" >
+								<label for="active">Активный</label>
 							</div>
 						</div>
 						<div class="modal-footer">

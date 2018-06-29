@@ -18,7 +18,7 @@ $(document).ready(function () {
 		client["phone"] = $("#phone").val();
 		client["city"] = $("#city").val();
 		client["cardId"] = $("#cardId").val();
-		client["gender"] = $('.saveDialog #active').prop('checked') ? "ACTIVE" : "INACTIVE";
+		client["status"] = $('.saveDialog #active').prop('checked') ? "ACTIVE" : "INACTIVE";
 
 		var clientJSON = JSON.stringify(client);
 
@@ -52,20 +52,22 @@ $(document).ready(function () {
 				$('.saveDialog #firstName').val(client.firstName);
 				$('.saveDialog #lastName').val(client.lastName);
 				$('.saveDialog #middleName').val(client.middleName);
-				// $('.saveDialog #gender').val(client.gender);
+
+				if (client.gender == 'FEMALE') $('.saveDialog #female').prop('checked', 'checked');
 
 				$('.saveDialog #birthday').val(getNormalizedDate(client.birthday, '.', '-'));
 				$('.saveDialog #email').val(client.email);
 				$('.saveDialog #phone').val(client.phone);
 				$('.saveDialog #city').val(client.city);
 				$('.saveDialog #cardId').val(client.cardId);
+
+				if (client.status == 'ACTIVE') $('.saveDialog #active').prop('checked', 'checked');
 			});
 		} else {
 			$('.saveDialog #id').val('');
 			$('.saveDialog #firstName').val('');
 			$('.saveDialog #lastName').val('');
 			$('.saveDialog #middleName').val('');
-			// $('.saveDialog #gender').val(client.gender);
 			$('.saveDialog #birthday').val('1990-01-01');
 			$('.saveDialog #email').val('');
 			$('.saveDialog #phone').val('');

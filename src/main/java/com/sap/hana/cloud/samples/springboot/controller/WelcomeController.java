@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(path = {"/", "/index"})
 public class WelcomeController {
 
-	@GetMapping(path = "/")
+	@GetMapping
 	public String welcome() {
 		return "index";
 	}
