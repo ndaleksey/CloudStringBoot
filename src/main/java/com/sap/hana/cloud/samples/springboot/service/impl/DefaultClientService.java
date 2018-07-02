@@ -63,7 +63,7 @@ public class DefaultClientService implements ClientService {
 	}
 
 	@Override
-	public void saveClient(Client client) {
+	public void save(Client client) {
 		repository.save(client);
 	}
 
@@ -87,7 +87,7 @@ public class DefaultClientService implements ClientService {
 	}
 
 	@Override
-	public void deleteClientById(Long id) {
+	public void delete(Long id) {
 		repository.deleteById(id);
 	}
 

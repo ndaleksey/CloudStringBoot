@@ -2,13 +2,14 @@ package com.sap.hana.cloud.samples.springboot.model.check;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Created by Shishkov A.V. on 29.06.18.
  */
 @Entity
-@Table(name = "check")
+@Table(name = "simple_check")
 public class Check {
 	@Id
 	@Column(name = "id")
@@ -24,13 +25,78 @@ public class Check {
 	@Column(name = "shop_number")
 	private String shopNumber;
 
-	@Column(name = "total_price")
-	private double totalPrice;
-
-
 	@Column(name = "status", columnDefinition = "smallint")
 	private CheckStatus status;
 
 	@OneToMany(mappedBy = "check", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<CheckPosition> positions;
+	private Set<CheckPosition> positions = new HashSet<>();
+
+	public Check() {
+	}
+
+	public Check(String number, LocalDateTime registrationTime, String shopNumber, CheckStatus status) {
+		this.number = number;
+		this.registrationTime = registrationTime;
+		this.shopNumber = shopNumber;
+		this.status = status;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public LocalDateTime getRegistrationTime() {
+		return registrationTime;
+	}
+
+	public void setRegistrationTime(LocalDateTime registrationTime) {
+		this.registrationTime = registrationTime;
+	}
+
+	public String getShopNumber() {
+		return shopNumber;
+	}
+
+	public void setShopNumber(String shopNumber) {
+		this.shopNumber = shopNumber;
+	}
+
+	@Transient
+	public double getTotalPrice() {
+		double totalPrice = 0;
+
+		/*for (CheckPosition position : positions) {
+			totalPrice += position.getPrice() * position.getAmount();
+		}*/
+
+		return totalPrice;
+	}
+
+	public CheckStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(CheckStatus status) {
+		this.status = status;
+	}
+
+	public Set<CheckPosition> getPositions() {
+		return positions;
+	}
+
+	public void setPositions(Set<CheckPosition> positions) {
+		this.positions = positions;
+	}
 }

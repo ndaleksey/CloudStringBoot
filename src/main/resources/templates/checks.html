@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>Список клиентов</title>
+	<title>Список чеков</title>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
 			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 			crossorigin="anonymous"></script>
@@ -34,51 +34,42 @@
 	</nav>
 </div>
 
-<div class="container">
+<!--<div class="container">
 	<div class="row">
 		<button class="btn btn-success addButton">Добавить</button>
 	</div>
 	<div class="row">
 		<div class="col-12">
-			<table id="clientsTable" class="table table-striped table-hover">
+			<table id="checksTable" class="table table-striped table-hover">
 				<thead class="thead-dark">
 				<tr>
 					<th>id</th>
-					<th>ФИО</th>
-					<th>Пол</th>
-					<th>Дата рождения</th>
-					<th>E-mail</th>
-					<th>Телефон</th>
-					<th>Город</th>
-					<th>ID карты</th>
-					<th>Бальный счёт</th>
+					<th>Номер</th>
+					<th>Время регистрации</th>
+					<th>Номер магазина</th>
+					<th>Итоговая цена</th>
 					<th>Статус</th>
+					<th>Список товаров</th>
+
 					<th></th>
 					<th></th>
 				</tr>
 				</thead>
 				<tbody>
-				<tr th:each="client : ${clients}">
-					<td th:text="${client.id}"></td>
-					<td th:text="${client.lastName} + ' ' + ${client.firstName} + ' ' + ${client.middleName}"></td>
+				<tr th:each="check : ${checks}">
+					<td th:text="${check.id}"></td>
+					<td th:text="${check.number}"></td>
+					<td th:text="${check.registrationTime}"></td>
+					<td th:text="${check.shopNumber}"></td>
+					<td th:text="${check.totalPrice}"></td>
+					<td th:text="${check.status}"></td>
+					<td><a href="" class="btn btn-info">Список товаров</a></td>
 
-					<td
-							th:text="${client.gender==T(com.sap.hana.cloud.samples.springboot.model.Gender).MALE?'М':'Ж'}"></td>
-
-					<td th:text="${#temporals.format(client.birthday, 'dd.MM.yyyy')}"></td>
-					<td th:text="${client.email}"></td>
-					<td th:text="${client.phone}"></td>
-					<td th:text="${client.city}"></td>
-					<td th:text="${client.cardId}"></td>
-					<td th:text="${client.score}"></td>
-					<td
-							th:text="${client.status==T(com.sap.hana.cloud.samples.springboot.model.ClientStatus).ACTIVE?'Активный':'Неактивный'}"></td>
-					<td>
-						<a class="btn btn-primary editButton" th:href="@{/clients/find/(id=${client.id})}">Изменить</a>
+						<a class="btn btn-primary editButton" th:href="@{/checks/find/(id=${check.id})}">Изменить</a>
 					</td>
 					<td>
 						<a class="btn btn-danger deleteButton"
-						   th:href="@{/clients/delete/(id=${client.id})}">Удалить</a>
+						   th:href="@{/checks/delete/(id=${check.id})}">Удалить</a>
 					</td>
 				</tr>
 				</tbody>
@@ -86,16 +77,16 @@
 		</div>
 	</div>
 
-	<!-- Диалог сохранения/изменения клиента -->
+	&lt;!&ndash; Диалог сохранения/изменения клиента &ndash;&gt;
 	<div class="saveDialog">
-		<form th:action="@{/clients/save}" method="post">
-			<div class="modal fade" id="clientDetailsModal" tabindex="-1" role="dialog"
-				 aria-labelledby="clientDetailsLabel"
+		<form th:action="@{/checks/save}" method="post">
+			<div class="modal fade" id="checkDetailsModal" tabindex="-1" role="dialog"
+				 aria-labelledby="checkDetailsLabel"
 				 aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="clientDetailsLabel">Информация о клиенте</h5>
+							<h5 class="modal-title" id="checkDetailsLabel">Информация о клиенте</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -184,7 +175,7 @@
 		</form>
 	</div>
 
-	<!-- Диалог удаления клиента -->
+	&lt;!&ndash; Диалог удаления клиента &ndash;&gt;
 	<div class="deleteDialog">
 		<div class="modal fade" id="deleteClientModal" tabindex="-1" role="dialog"
 			 aria-labelledby="deleteClientModalLabel" aria-hidden="true">
@@ -207,18 +198,14 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div>-->
 
-
-<!--<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>-->
-
-<script src="../static/js/clients.js" th:src="@{/js/clients.js}"></script>
+<script src="../static/js/checks.js" th:src="@{/js/checks.js}"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
-
 </body>
 </html>

@@ -20,7 +20,7 @@ public class ClientRestController {
 
 	@PostMapping(path = "/add")
 	public ResponseEntity<Client> addClient(@RequestBody Client client) {
-		service.saveClient(client);
+		service.save(client);
 		return new ResponseEntity<>(client, HttpStatus.OK);
 	}
 

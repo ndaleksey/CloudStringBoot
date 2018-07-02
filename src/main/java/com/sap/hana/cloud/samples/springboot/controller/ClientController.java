@@ -22,21 +22,21 @@ public class ClientController {
 	}
 
 	@GetMapping
-	public String findAll(Model model, @RequestParam(defaultValue = "0") int page) {
-		model.addAttribute("clients", service.findByPage(page, 4));
+	public String showClients(Model model, @RequestParam(defaultValue = "0") int page) {
+		model.addAttribute("clients", service.findByPage(page, 10));
 		return "clients";
 	}
 
 	@PostMapping(path = "/save", consumes = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public Client addClient(@RequestBody Client client, BindingResult result) {
-		service.saveClient(client);
+		service.save(client);
 		return client;
 	}
 
 	@GetMapping(path = "/delete")
 	public String deleteClient(Long id) {
-		service.deleteClientById(id);
+		service.delete(id);
 		return "redirect:/clients";
 	}
 
@@ -48,7 +48,7 @@ public class ClientController {
 
 	/*@DeleteMapping(path = "/delete/{id}")
 	public String delete(@PathVariable(value = "id") Long id) {
-		service.deleteClientById(id);
+		service.delete(id);
 		return "redirect:/clients";
 	}*/
 }

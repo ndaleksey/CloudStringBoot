@@ -1,5 +1,7 @@
 package com.sap.hana.cloud.samples.springboot.model.check;
 
+import com.sap.hana.cloud.samples.springboot.model.Product;
+
 import javax.persistence.*;
 
 /**
@@ -13,14 +15,12 @@ public class CheckPosition {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "number")
+	@Column(name = "number", nullable = false)
 	private String number;
 
-	@Column(name = "product_id")
-	private Long productId;
-
-	@Column(name = "product_category_id")
-	private Long productCategoryId;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "product_id")
+	private Product product;
 
 	@Column(name = "amount")
 	private double amount;
@@ -28,7 +28,63 @@ public class CheckPosition {
 	@Column(name = "price")
 	private double price;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	/*@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "check_id", nullable = false)
-	private Check check;
+	private Check check;*/
+
+	public CheckPosition(String number, Product product, double amount, double price) {
+		this.number = number;
+		this.product = product;
+		this.amount = amount;
+		this.price = price;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	/*public Check getCheck() {
+		return check;
+	}
+
+
+	public void setCheck(Check check) {
+		this.check = check;
+	}*/
 }
