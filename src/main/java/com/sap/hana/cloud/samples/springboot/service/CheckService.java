@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Shishkov A.V. on 29.06.18.
  */
 public interface CheckService {
-	void save(Check client);
+	Check save(Check client);
 	Check findById(Long id);
 	List<Check> findAll();
 	List<Check> findByPage(int page, int size);

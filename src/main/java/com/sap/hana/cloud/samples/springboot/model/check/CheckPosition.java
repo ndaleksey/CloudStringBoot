@@ -18,7 +18,7 @@ public class CheckPosition {
 	@Column(name = "number", nullable = false)
 	private String number;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
 
@@ -28,23 +28,23 @@ public class CheckPosition {
 	@Column(name = "price")
 	private double price;
 
-	/*@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "check_id", nullable = false)
-	private Check check;*/
+	private Check check;
 
-	public CheckPosition(String number, Product product, double amount, double price) {
+	public CheckPosition() {
+	}
+
+	public CheckPosition(Check check, String number, Product product, double amount, double price) {
 		this.number = number;
 		this.product = product;
 		this.amount = amount;
 		this.price = price;
+		this.check = check;
 	}
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getNumber() {
@@ -79,12 +79,11 @@ public class CheckPosition {
 		this.price = price;
 	}
 
-	/*public Check getCheck() {
+	public Check getCheck() {
 		return check;
 	}
 
-
 	public void setCheck(Check check) {
 		this.check = check;
-	}*/
+	}
 }

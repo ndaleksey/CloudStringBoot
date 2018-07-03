@@ -1,7 +1,12 @@
 package com.sap.hana.cloud.samples.springboot.controller;
 
+import com.sap.hana.cloud.samples.springboot.model.check.Check;
+import com.sap.hana.cloud.samples.springboot.service.CheckService;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Shishkov A.V. on 29.06.18.
@@ -9,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(path = "/checks")
 public class CheckController {
-	/*private CheckService service;
+	private CheckService service;
 
 	public CheckController(CheckService service) {
 		this.service = service;
@@ -38,5 +43,5 @@ public class CheckController {
 	@ResponseBody
 	public Check find(Long id) {
 		return service.findById(id);
-	}*/
+	}
 }

@@ -53,12 +53,23 @@ public class Client {
 	@Column(name = "score")
 	private double score;
 
-	public Long getId() {
-		return id;
+	public Client() {
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public Client(String firstName, String lastName, String middleName, Gender gender, LocalDate birthday,
+				  @Email(message = "Please provide a valid e-mail") String email, String phone, String city) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.middleName = middleName;
+		this.gender = gender;
+		this.birthday = birthday;
+		this.email = email;
+		this.phone = phone;
+		this.city = city;
+	}
+
+	public Long getId() {
+		return id;
 	}
 
 	public String getFirstName() {
@@ -147,20 +158,5 @@ public class Client {
 
 	public void setScore(double score) {
 		this.score = score;
-	}
-
-	public Client() {
-	}
-
-	public Client(String firstName, String lastName, String middleName, Gender gender, LocalDate birthday,
-				  @Email(message = "Please provide a valid e-mail") String email, String phone, String city) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.middleName = middleName;
-		this.gender = gender;
-		this.birthday = birthday;
-		this.email = email;
-		this.phone = phone;
-		this.city = city;
 	}
 }

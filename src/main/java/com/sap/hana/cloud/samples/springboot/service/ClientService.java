@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Shishkov A.V. on 08.06.18.
  */
 public interface ClientService {
-	void save(Client client);
+	Client save(Client client);
 	Client findById(Long id);
 	List<Client> findAll();
 	List<Client> findByPage(int page, int size);

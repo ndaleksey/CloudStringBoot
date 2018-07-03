@@ -6,6 +6,7 @@ import com.sap.hana.cloud.samples.springboot.model.Gender;
 import com.sap.hana.cloud.samples.springboot.service.ClientService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ import java.util.stream.StreamSupport;
 /**
  * Created by Shishkov A.V. on 08.06.18.
  */
+@Transactional
 @Service
 public class DefaultClientService implements ClientService {
 
@@ -63,8 +65,8 @@ public class DefaultClientService implements ClientService {
 	}
 
 	@Override
-	public void save(Client client) {
-		repository.save(client);
+	public Client save(Client client) {
+		return repository.save(client);
 	}
 
 	@Override

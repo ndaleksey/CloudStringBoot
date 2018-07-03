@@ -28,7 +28,7 @@ public class Check {
 	@Column(name = "status", columnDefinition = "smallint")
 	private CheckStatus status;
 
-	@OneToMany(mappedBy = "check", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<CheckPosition> positions = new HashSet<>();
 
 	public Check() {
@@ -43,10 +43,6 @@ public class Check {
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getNumber() {
@@ -77,9 +73,9 @@ public class Check {
 	public double getTotalPrice() {
 		double totalPrice = 0;
 
-		/*for (CheckPosition position : positions) {
+		for (CheckPosition position : positions) {
 			totalPrice += position.getPrice() * position.getAmount();
-		}*/
+		}
 
 		return totalPrice;
 	}

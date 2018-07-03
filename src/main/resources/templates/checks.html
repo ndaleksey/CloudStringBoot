@@ -34,7 +34,7 @@
 	</nav>
 </div>
 
-<!--<div class="container">
+<div class="container">
 	<div class="row">
 		<button class="btn btn-success addButton">Добавить</button>
 	</div>
@@ -57,14 +57,14 @@
 				</thead>
 				<tbody>
 				<tr th:each="check : ${checks}">
-					<td th:text="${check.id}"></td>
+					<td th:text="${check.id}" hidden></td>
 					<td th:text="${check.number}"></td>
-					<td th:text="${check.registrationTime}"></td>
+					<td th:text="${#temporals.format(check.registrationTime, 'HH:mm:ss dd.MM.yyyy')}"></td>
 					<td th:text="${check.shopNumber}"></td>
 					<td th:text="${check.totalPrice}"></td>
 					<td th:text="${check.status}"></td>
 					<td><a href="" class="btn btn-info">Список товаров</a></td>
-
+					<td>
 						<a class="btn btn-primary editButton" th:href="@{/checks/find/(id=${check.id})}">Изменить</a>
 					</td>
 					<td>
@@ -77,7 +77,7 @@
 		</div>
 	</div>
 
-	&lt;!&ndash; Диалог сохранения/изменения клиента &ndash;&gt;
+	<!-- Диалог сохранения/изменения клиента -->
 	<div class="saveDialog">
 		<form th:action="@{/checks/save}" method="post">
 			<div class="modal fade" id="checkDetailsModal" tabindex="-1" role="dialog"
@@ -161,7 +161,7 @@
 								<input id="inactive" type="radio" name="status" value="" checked="checked">
 								<label for="inactive">Неактивный</label>
 
-								<input id="active" type="radio" name="status" value="" >
+								<input id="active" type="radio" name="status" value="">
 								<label for="active">Активный</label>
 							</div>
 						</div>
@@ -175,7 +175,7 @@
 		</form>
 	</div>
 
-	&lt;!&ndash; Диалог удаления клиента &ndash;&gt;
+	<!-- Диалог удаления клиента -->
 	<div class="deleteDialog">
 		<div class="modal fade" id="deleteClientModal" tabindex="-1" role="dialog"
 			 aria-labelledby="deleteClientModalLabel" aria-hidden="true">
@@ -198,7 +198,7 @@
 			</div>
 		</div>
 	</div>
-</div>-->
+</div>
 
 <script src="../static/js/checks.js" th:src="@{/js/checks.js}"></script>
 
