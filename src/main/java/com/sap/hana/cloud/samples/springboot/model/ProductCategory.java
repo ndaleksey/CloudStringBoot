@@ -1,5 +1,7 @@
 package com.sap.hana.cloud.samples.springboot.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +20,7 @@ public class ProductCategory {
 	private String name;
 
 	@OneToMany(mappedBy = "category")
+	@JsonBackReference
 	private Set<Product> products = new HashSet<>();
 
 	public ProductCategory() {
@@ -31,11 +34,23 @@ public class ProductCategory {
 		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public Set<Product> getProducts() {
 		return products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
 	}
 }

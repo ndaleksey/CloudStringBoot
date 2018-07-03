@@ -27,7 +27,7 @@ public class ClientController {
 		return "clients";
 	}
 
-	@PostMapping(path = "/save", consumes = {MediaType.APPLICATION_JSON_VALUE})
+	@PostMapping(path = "/save", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
 	@ResponseBody
 	public Client addClient(@RequestBody Client client, BindingResult result) {
 		service.save(client);

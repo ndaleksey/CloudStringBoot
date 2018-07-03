@@ -42,6 +42,7 @@ public class CheckController {
 	@GetMapping(path = "/find")
 	@ResponseBody
 	public Check find(Long id) {
-		return service.findById(id);
+		Check result = service.findById(id);
+		return result;
 	}
 }

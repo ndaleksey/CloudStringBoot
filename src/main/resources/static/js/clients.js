@@ -40,6 +40,7 @@ $(document).ready(function () {
 	});
 
 	$('.addButton, .table .editButton').on('click', function (event) {
+		debugger
 		event.preventDefault();
 		var href = $(this).attr('href');
 		var text = $(this).text();
@@ -54,6 +55,7 @@ $(document).ready(function () {
 				$('.saveDialog #middleName').val(client.middleName);
 
 				if (client.gender == 'FEMALE') $('.saveDialog #female').prop('checked', 'checked');
+				else $('.saveDialog #male').prop('checked', 'checked');
 
 				$('.saveDialog #birthday').val(getNormalizedDate(client.birthday, '.', '-'));
 				$('.saveDialog #email').val(client.email);
@@ -62,6 +64,7 @@ $(document).ready(function () {
 				$('.saveDialog #cardId').val(client.cardId);
 
 				if (client.status == 'ACTIVE') $('.saveDialog #active').prop('checked', 'checked');
+				else $('.saveDialog #inactive').prop('checked', 'checked');
 			});
 		} else {
 			$('.saveDialog #id').val('');

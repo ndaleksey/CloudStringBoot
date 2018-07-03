@@ -1,5 +1,8 @@
 package com.sap.hana.cloud.samples.springboot.model.check;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -20,6 +23,7 @@ public class Check {
 	private String number;
 
 	@Column(name = "registration_time")
+	@JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss")
 	private LocalDateTime registrationTime;
 
 	@Column(name = "shop_number")
@@ -29,6 +33,7 @@ public class Check {
 	private CheckStatus status;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonBackReference
 	private Set<CheckPosition> positions = new HashSet<>();
 
 	public Check() {
@@ -43,6 +48,10 @@ public class Check {
 
 	public Long getId() {
 		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNumber() {

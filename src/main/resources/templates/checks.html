@@ -43,7 +43,7 @@
 			<table id="checksTable" class="table table-striped table-hover">
 				<thead class="thead-dark">
 				<tr>
-					<th>id</th>
+					<th hidden>id</th>
 					<th>Номер</th>
 					<th>Время регистрации</th>
 					<th>Номер магазина</th>
@@ -62,8 +62,10 @@
 					<td th:text="${#temporals.format(check.registrationTime, 'HH:mm:ss dd.MM.yyyy')}"></td>
 					<td th:text="${check.shopNumber}"></td>
 					<td th:text="${check.totalPrice}"></td>
-					<td th:text="${check.status}"></td>
-					<td><a href="" class="btn btn-info">Список товаров</a></td>
+					<td
+							th:text="${check.status == T(com.sap.hana.cloud.samples.springboot.model.check.CheckStatus).CREATED ? 'Создан' : 'Обработан'}"></td>
+					<td>
+						<a href="" class="btn btn-info">Список товаров</a></td>
 					<td>
 						<a class="btn btn-primary editButton" th:href="@{/checks/find/(id=${check.id})}">Изменить</a>
 					</td>
@@ -98,71 +100,25 @@
 							</div>
 
 							<div class="form-group">
-								<label for="firstName" class="col-form-label">Имя</label>
-								<input id="firstName" name="firstName" value="" class="form-control" type="text"
-									   placeholder="Имя">
+								<label for="number" class="col-form-label">Номер</label>
+								<input id="number" name="number" value="" class="form-control" type="text"
+									   placeholder="Номер">
 							</div>
 
 							<div class="form-group">
-								<label for="lastName" class="col-form-label">Фамилия</label>
-								<input id="lastName" name="lastName" value="" class="form-control" type="text"
-									   placeholder="Фамилия">
-							</div>
-
-							<div class="form-group">
-								<label for="middleName" class="col-form-label">Отчество</label>
-								<input id="middleName" name="middleName" value="" class="form-control" type="text"
-									   placeholder="Отчество">
-							</div>
-
-							<div class="form-group">
-								<label class="col-form-label">Пол</label><br>
-
-								<input id="male" type="radio" name="gender" value="male" checked="checked">
-								<label for="male">М</label>
-
-								<input id="female" type="radio" name="gender" value="female">
-								<label for="male">Ж</label>
-							</div>
-
-							<div class="form-group">
-								<label for="birthday" class="col-form-label">Дата рождения</label>
-								<input id="birthday" class="form-control" name="birthday" value=""
-									   type="date"/>
-							</div>
-
-							<div class="form-group">
-								<label for="email" class="col-form-label">E-mail</label>
-								<input id="email" name="email" value="" class="form-control" type="email"
-									   placeholder="E-mail">
-							</div>
-
-							<div class="form-group">
-								<label for="phone" class="col-form-label">Телефон</label>
-								<input id="phone" name="phone" value="" class="form-control" type="tel"
-									   placeholder="Телефон">
-							</div>
-
-							<div class="form-group">
-								<label for="city" class="col-form-label">Город</label>
-								<input id="city" name="city" value="" class="form-control" type="text"
-									   placeholder="Город">
-							</div>
-
-							<div class="form-group">
-								<label for="cardId" class="col-form-label">Id карты</label>
-								<input id="cardId" name="cardId" value="" class="form-control" type="text"
-									   placeholder="Id карты">
+								<label for="registrationTime" class="col-form-label">Время регистрации</label>
+								<input id="registrationTime" class="form-control" name="registrationTime" value=""
+									   type="datetime-local"/>
 							</div>
 
 							<div class="form-group">
 								<label class="col-form-label">Статус</label><br>
 
-								<input id="inactive" type="radio" name="status" value="" checked="checked">
-								<label for="inactive">Неактивный</label>
+								<input id="created" type="radio" name="status" value="created" checked="checked">
+								<label for="created">Создан</label>
 
-								<input id="active" type="radio" name="status" value="">
-								<label for="active">Активный</label>
+								<input id="processed" type="radio" name="status" value="processed">
+								<label for="processed">Обработан</label>
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -177,18 +133,18 @@
 
 	<!-- Диалог удаления клиента -->
 	<div class="deleteDialog">
-		<div class="modal fade" id="deleteClientModal" tabindex="-1" role="dialog"
-			 aria-labelledby="deleteClientModalLabel" aria-hidden="true">
+		<div class="modal fade" id="deleteCheckModal" tabindex="-1" role="dialog"
+			 aria-labelledby="deleteCheckModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="deleteClientModalLabel">Удаление клиента</h5>
+						<h5 class="modal-title" id="deleteCheckModalLabel">Удаление чека</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						Вы действительно хотите удалить клиента?
+						Вы действительно хотите удалить чек?
 					</div>
 					<div class="modal-footer">
 						<a id="deleteRef" href="" class="btn btn-danger">Удалить</a>
