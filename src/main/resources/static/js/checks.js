@@ -8,7 +8,6 @@ $(document).ready(function () {
 		var check = {}
 		check["id"] = $("#id").val();
 		check["number"] = $("#number").val();
-		debugger
 		check["registrationTime"] = getNormalizedDate($("#registrationTime").val());
 		check["shopNumber"] = $("#shopNumber").val();
 		check["status"] = $('.saveDialog #created').prop('checked') ? "CREATED" : "PROCESSED";

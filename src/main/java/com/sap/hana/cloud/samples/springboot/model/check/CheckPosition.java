@@ -29,7 +29,7 @@ public class CheckPosition {
 	@Column(name = "price")
 	private double price;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "check_id", nullable = false)
 	@JsonBackReference
 	private Check check;
