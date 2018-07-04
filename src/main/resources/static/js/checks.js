@@ -65,6 +65,12 @@ $(document).ready(function () {
 		$('.deleteDialog #deleteRef').attr('href', href);
 		$('.deleteDialog #deleteCheckModal').modal();
 	});
+
+	$('#showPositionsButton').on('click', function (event) {
+		event.preventDefault();
+
+		$('.positionsDialog #checkPositionsModal').modal();
+	})
 });
 
 function getNormalizedDate(date) {

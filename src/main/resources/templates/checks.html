@@ -65,7 +65,7 @@
 					<td
 							th:text="${check.status == T(com.sap.hana.cloud.samples.springboot.model.check.CheckStatus).CREATED ? 'Создан' : 'Обработан'}"></td>
 					<td>
-						<a href="" class="btn btn-info">Список товаров</a></td>
+						<a id="showPositionsButton" href="" class="btn btn-info" >Список товаров</a></td>
 					<td>
 						<a class="btn btn-primary editButton" th:href="@{/checks/find/(id=${check.id})}">Изменить</a>
 					</td>
@@ -94,41 +94,41 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<div class="form-group" hidden>
-								<label for="id" class="col-form-label">ID</label>
-								<input id="id" name="id" value="" class="form-control" type="input" placeholder="Id">
-							</div>
+							<table id="positionsTable" class="table table-striped">
+								<thead>
+								<tr>
+									<th scope="col">Номер</th>
+									<th scope="col">Продукт</th>
+									<th scope="col">Количество</th>
+									<th scope="col">Цена</th>
 
-							<div class="form-group">
-								<label for="number" class="col-form-label">Номер</label>
-								<input id="number" name="number" value="" class="form-control" type="text"
-									   placeholder="Номер">
-							</div>
-
-							<div class="form-group">
-								<label for="registrationTime" class="col-form-label">Время регистрации</label>
-								<input id="registrationTime" class="form-control" name="registrationTime" value=""
-									   type="datetime-local"/>
-							</div>
-
-							<div class="form-group">
-								<label for="shopNumber" class="col-form-label">Номер магазина</label>
-								<input id="shopNumber" name="shopNumber" value="" class="form-control" type="text"
-									   placeholder="Номер магазина">
-							</div>
-
-							<div class="form-group">
-								<label class="col-form-label">Статус</label><br>
-
-								<input id="created" type="radio" name="status" value="created" checked="checked">
-								<label for="created">Создан</label>
-
-								<input id="processed" type="radio" name="status" value="processed">
-								<label for="processed">Обработан</label>
-							</div>
+									<th></th>
+									<th></th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr th:each="check : ${checks}">
+									<td th:text="${check.id}" hidden></td>
+									<td th:text="${check.number}"></td>
+									<td th:text="${#temporals.format(check.registrationTime, 'HH:mm:ss dd.MM.yyyy')}"></td>
+									<td th:text="${check.shopNumber}"></td>
+									<td th:text="${check.totalPrice}"></td>
+									<td
+											th:text="${check.status == T(com.sap.hana.cloud.samples.springboot.model.check.CheckStatus).CREATED ? 'Создан' : 'Обработан'}"></td>
+									<td>
+										<a href="" class="btn btn-info">Список товаров</a></td>
+									<td>
+										<a class="btn btn-primary editButton" th:href="@{/checks/find/(id=${check.id})}">Изменить</a>
+									</td>
+									<td>
+										<a class="btn btn-danger deleteButton"
+										   th:href="@{/checks/delete/(id=${check.id})}">Удалить</a>
+									</td>
+								</tr>
+								</tbody>
+							</table>
 						</div>
 						<div class="modal-footer">
-							<input id="saveDetailsButton" class="btn btn-primary" type="submit" value="Сохранить"/>
 							<button class="btn btn-secondary" type="button" data-dismiss="modal">Отмена</button>
 						</div>
 					</div>
@@ -160,6 +160,64 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<!-- Диалог списка товаров -->
+<div class="positionsDialog">
+	<form th:action="@{/checks/save}" method="post">
+		<div class="modal fade" id="checkPositionsModal" tabindex="-1" role="dialog"
+			 aria-labelledby="checkPositionsLabel"
+			 aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="">Информация о клиенте</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group" hidden>
+							<label for="id" class="col-form-label">ID</label>
+							<input id="id" name="id" value="" class="form-control" type="input" placeholder="Id">
+						</div>
+
+						<div class="form-group">
+							<label for="number" class="col-form-label">Номер</label>
+							<input id="number" name="number" value="" class="form-control" type="text"
+								   placeholder="Номер">
+						</div>
+
+						<div class="form-group">
+							<label for="registrationTime" class="col-form-label">Время регистрации</label>
+							<input id="registrationTime" class="form-control" name="registrationTime" value=""
+								   type="datetime-local"/>
+						</div>
+
+						<div class="form-group">
+							<label for="shopNumber" class="col-form-label">Номер магазина</label>
+							<input id="shopNumber" name="shopNumber" value="" class="form-control" type="text"
+								   placeholder="Номер магазина">
+						</div>
+
+						<div class="form-group">
+							<label class="col-form-label">Статус</label><br>
+
+							<input id="created" type="radio" name="status" value="created" checked="checked">
+							<label for="created">Создан</label>
+
+							<input id="processed" type="radio" name="status" value="processed">
+							<label for="processed">Обработан</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input id="saveDetailsButton" class="btn btn-primary" type="submit" value="Сохранить"/>
+						<button class="btn btn-secondary" type="button" data-dismiss="modal">Отмена</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
 </div>
 
 <script src="../static/js/checks.js" th:src="@{/js/checks.js}"></script>
