@@ -28,7 +28,7 @@ public class CheckController {
 
 	@PostMapping(path = "/save", consumes = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public Check addClient(@RequestBody Check check, BindingResult result) {
+	public Check addCheck(@RequestBody Check check, BindingResult result) {
 		service.save(check);
 		return check;
 	}

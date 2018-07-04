@@ -1,6 +1,6 @@
 package com.sap.hana.cloud.samples.springboot.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
@@ -18,7 +18,7 @@ public class Product {
 	private String name;
 
 	@ManyToOne
-	@JsonManagedReference
+	@JsonBackReference
 	private ProductCategory category;
 
 	public Product() {

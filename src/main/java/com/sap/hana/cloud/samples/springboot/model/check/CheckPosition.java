@@ -1,6 +1,6 @@
 package com.sap.hana.cloud.samples.springboot.model.check;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sap.hana.cloud.samples.springboot.model.Product;
 
 import javax.persistence.*;
@@ -31,7 +31,7 @@ public class CheckPosition {
 
 	@ManyToOne
 	@JoinColumn(name = "check_id", nullable = false)
-	@JsonManagedReference
+	@JsonBackReference
 	private Check check;
 
 	public CheckPosition() {
