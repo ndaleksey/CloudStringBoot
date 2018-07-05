@@ -32,7 +32,7 @@ public class Check {
 	@Column(name = "status", columnDefinition = "smallint")
 	private CheckStatus status;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "check", orphanRemoval = true)
 	@JsonManagedReference
 	private Set<CheckPosition> positions = new HashSet<>();
 
