@@ -69,7 +69,7 @@
 							Изменить</a>
 					</td>
 					<td>
-						<a id="deletePosRef" class="btn btn-danger text-light" th:href="@{${position.id}}">Удалить</a>
+						<a id="deletePosRef" class="btn btn-danger text-light" th:href="${position.id}">Удалить</a>
 					</td>
 				</tr>
 				</tbody>
@@ -91,13 +91,8 @@
 				<p>Вы действительно хотите удалить позицию?</p>
 			</div>
 			<div class="modal-footer">
-				<form id="delPosForm" th:action="@{/checks/positions/delete}" method="post">
-					<input id="checkId" name="checkId" th:value="${check.id}" hidden>
-					<input id="posId" name="posId" value="" hidden>
-					<button class="btn btn-primary" type="submit">Удалить</button>
-				</form>
-
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+				<button id="applyPosDelBtn" class="btn btn-primary" type="button">Удалить</button>
+				<button class="btn btn-secondary" type="button" data-dismiss="modal">Отмена</button>
 			</div>
 		</div>
 	</div>

@@ -2,14 +2,34 @@ $(document).ready(function () {
 
 	console.log("REFRESH")
 
+	var delPosId;
 
-	$('#deletePosRef').on('click', function (event) {
+	$('.table #deletePosRef').on('click', function (event) {
 		event.preventDefault();
 
-		var href = $(this).attr('href');
-		$('#posId').attr('value', href);
+		delPosId = $(this).attr('href');
 		$('#deletePositionDialog').modal();
 	});
+
+	$('.modal #applyPosDelBtn').on('click', function (event) {
+		event.preventDefault();
+
+		debugger
+
+		$.ajax({
+			url: "/clients/positions/delete",
+			type: "POST",
+			data: delPosId,
+			dataType: "text",
+			contentType: "text/plain",
+			success: function () {
+				location.reload(true);
+			},
+			error: function () {
+				console.log('error');
+			}
+		});
+	})
 });
 
 function getNormalizedDate(date) {

@@ -2,12 +2,15 @@ package com.sap.hana.cloud.samples.springboot.service.impl;
 
 import com.sap.hana.cloud.samples.springboot.dao.ProductRepository;
 import com.sap.hana.cloud.samples.springboot.model.Product;
+import com.sap.hana.cloud.samples.springboot.model.ProductCategory;
 import com.sap.hana.cloud.samples.springboot.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 /**
@@ -16,27 +19,18 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class DefaultProductService implements ProductService {
+	@Autowired
 	private ProductRepository productRepository;
 
-	public DefaultProductService(ProductRepository productRepository) {
-		this.productRepository = productRepository;
-	}
-
 	@Override
-	public Product save(Product product) {
-		return productRepository.save(product);
+	public List<Product> findAll() {
+		return productRepository.findAll();
 	}
 
 	@Override
 	public Product findById(Long id) {
-		return productRepository.findById(id).get();
-	}
-
-	@Override
-	public List<Product> findAll() {
-		List<Product> products = new ArrayList<>();
-		StreamSupport.stream(productRepository.findAll().spliterator(), false).forEach(p -> products.add(p));
-		return products;
+		Optional<Product> result = productRepository.findById(id);
+		return result.isPresent() ? result.get() : null;
 	}
 
 	@Override
@@ -53,8 +47,19 @@ public class DefaultProductService implements ProductService {
 
 	@Override
 	public void deleteByIds(Long[] ids) {
-		for (Long id : ids) {
-			productRepository.deleteById(id);
-		}
+		for (Long id : ids) productRepository.deleteById(id);
+	}
+
+	@Override
+	public Product save(Product product) {
+		if (product == null) return null;
+
+		ProductCategory category = product.getCategory();
+
+		if (category == null) return null;
+
+
+
+		return productRepository.save(product);
 	}
 }

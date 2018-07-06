@@ -70,30 +70,26 @@ public class Tests {
 	}
 
 	@Test
-	public void notDeleteCheckWhenDeletePosition() {
-		List<Check> checks = checkService.findAll();
-		int size = checks.size();
-		Check firstCheck = checks.get(0);
-
-		positionService.delete(firstCheck.getPositions().stream().findFirst().get().getId());
-		int newSize = checkService.findAll().size();
-
-		assertEquals("Чек удаляется при удалении позиции чека", size, newSize);
-	}
-
-	@Test
-	public void deletePositionFromCheck() {
+	public void deletePosition_checkIsNotDeleted() {
 		List<Check> checks = checkService.findAll();
 		Check check = checks.get(0);
 		CheckPosition position = check.getPositions().stream().findFirst().get();
 		positionService.delete(position.getId());
+		check = checkService.findById(check.getId());
+		boolean found = check.getPositions().stream().anyMatch(p -> p.getId() == position.getId());
 
-		/*Check sameCheck = checkService.findById(check.getId());
-		boolean found = sameCheck.getPositions().stream().anyMatch(p->p.getId() == position.getId());*/
+		assertFalse("Чек удаляется при удалении позиции чека", found);
+	}
 
-		CheckPosition samePosition = positionService.findById(position.getId());
+	@Test
+	public void deletePosition_positionReallyDeleted() {
+		List<Check> checks = checkService.findAll();
+		Check check = checks.get(0);
+		CheckPosition position = check.getPositions().stream().findFirst().get();
+		positionService.delete(position.getId());
+		check = checkService.findById(check.getId());
+		boolean b = check.getPositions().stream().anyMatch(p -> p.getId() == position.getId());
 
-//		assertFalse("Позиция не удалена из чека", found);
-		assertNull("Позиция не удалена из чека", samePosition);
+		assertFalse("Позиция не удалена из чека", b);
 	}
 }
