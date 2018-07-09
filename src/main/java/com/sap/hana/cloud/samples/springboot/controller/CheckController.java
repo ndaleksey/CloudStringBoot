@@ -84,17 +84,11 @@ public class CheckController {
 		return positionService.save(position);
 	}
 
-	/*@PostMapping("/positions/delete")
-	public String deletePosition(@RequestParam("checkId") Long checkId, @RequestParam("posId") Long posId) {
-		positionService.delete(posId);
-		return "redirect:/checks/positions/?id=" + checkId;
-	}*/
-
 	@DeleteMapping(value = "/positions/delete", consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public String deletePosition(@RequestBody CheckPosition position) {
+	@ResponseBody
+	public CheckPosition deletePosition(@RequestBody CheckPosition position) {
 		position = positionService.findById(position.getId());
-		Long checkId = position.getCheck().getId();
 		positionService.delete(Long.valueOf(position.getId()));
-		return "redirect:/checks/positions?id=" + checkId;
+		return position;
 	}
 }

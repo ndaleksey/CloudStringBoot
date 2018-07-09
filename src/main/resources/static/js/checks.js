@@ -30,10 +30,13 @@ $(document).ready(function () {
 			success: function () {
 				location.reload(true);
 			},
-			error: function () {
-				console.log('error');
+			error: function (obj, status, error) {
+				console.log('status: ' + status);
+				console.log('error: ' + error);
 			}
 		});
+
+        $('.modal #deletePositionDialog').modal('hide');
 	});
 });
 
