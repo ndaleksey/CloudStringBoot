@@ -1,5 +1,6 @@
 package com.sap.hana.cloud.samples.springboot.service.impl;
 
+import com.sap.hana.cloud.samples.springboot.dao.ProductCategoryRepository;
 import com.sap.hana.cloud.samples.springboot.dao.ProductRepository;
 import com.sap.hana.cloud.samples.springboot.model.Product;
 import com.sap.hana.cloud.samples.springboot.model.ProductCategory;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
+
 /**
  * Created by Shishkov A.V. on 30.06.18.
  */
@@ -21,6 +23,9 @@ import java.util.stream.StreamSupport;
 public class DefaultProductService implements ProductService {
 	@Autowired
 	private ProductRepository productRepository;
+
+	@Autowired
+	ProductCategoryRepository categoryRepository;
 
 	@Override
 	public List<Product> findAll() {
@@ -31,6 +36,11 @@ public class DefaultProductService implements ProductService {
 	public Product findById(Long id) {
 		Optional<Product> result = productRepository.findById(id);
 		return result.isPresent() ? result.get() : null;
+	}
+
+	@Override
+	public Product findByName(String name) {
+		return productRepository.findByName(name);
 	}
 
 	@Override
@@ -52,13 +62,19 @@ public class DefaultProductService implements ProductService {
 
 	@Override
 	public Product save(Product product) {
-		if (product == null) return null;
+
+
+		if (product == null) throw new NullPointerException("Продукт равен null");
 
 		ProductCategory category = product.getCategory();
 
-		if (category == null) return null;
+		if (category == null) throw new NullPointerException("У продукта не заполнена категория (категория равна " +
+				"null)");
 
 
+		if (category.getId() == null) {
+			product.setCategory(categoryRepository.save(category));
+		}
 
 		return productRepository.save(product);
 	}

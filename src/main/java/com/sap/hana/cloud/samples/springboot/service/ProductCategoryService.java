@@ -12,6 +12,8 @@ public interface ProductCategoryService {
 
 	ProductCategory find(Long id);
 
+	ProductCategory findByName(String name);
+
 	ProductCategory save(ProductCategory category);
 
 	void delete(Long id);

@@ -2,26 +2,31 @@ $(document).ready(function () {
 
 	console.log("REFRESH")
 
-	var delPosId;
+	var position;
 
 	$('.table #deletePosRef').on('click', function (event) {
 		event.preventDefault();
 
-		delPosId = $(this).attr('href');
+		var href = $(this).attr('href');
+
+		$.get(href, function (pos, status) {
+			position = pos;
+		});
 		$('#deletePositionDialog').modal();
 	});
 
 	$('.modal #applyPosDelBtn').on('click', function (event) {
 		event.preventDefault();
 
-		debugger
+		var positionJSON = JSON.stringify(position);
+		console.log(positionJSON);
 
 		$.ajax({
-			url: "/clients/positions/delete",
-			type: "POST",
-			data: delPosId,
-			dataType: "text",
-			contentType: "text/plain",
+			url: "/checks/positions/delete",
+			type: "DELETE",
+			data: positionJSON,
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
 			success: function () {
 				location.reload(true);
 			},
@@ -29,7 +34,7 @@ $(document).ready(function () {
 				console.log('error');
 			}
 		});
-	})
+	});
 });
 
 function getNormalizedDate(date) {

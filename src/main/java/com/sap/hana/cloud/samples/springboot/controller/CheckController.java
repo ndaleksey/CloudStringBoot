@@ -63,8 +63,13 @@ public class CheckController {
 	@GetMapping(path = "/find")
 	@ResponseBody
 	public Check find(Long id) {
-		Check result = checkService.findById(id);
-		return result;
+		return checkService.findById(id);
+	}
+
+	@GetMapping(path = "/positions/find")
+	@ResponseBody
+	public CheckPosition findPosition(Long id) {
+		return positionService.findById(id);
 	}
 
 	@GetMapping("/positions/details")
@@ -85,9 +90,11 @@ public class CheckController {
 		return "redirect:/checks/positions/?id=" + checkId;
 	}*/
 
-	@DeleteMapping(value = "/positions/delete", consumes = {MediaType.TEXT_PLAIN_VALUE})
-	public String deletePosition(@RequestBody String id) {
-		positionService.delete(Long.valueOf(id));
-		return "/checks/positions/delete";
+	@DeleteMapping(value = "/positions/delete", consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public String deletePosition(@RequestBody CheckPosition position) {
+		position = positionService.findById(position.getId());
+		Long checkId = position.getCheck().getId();
+		positionService.delete(Long.valueOf(position.getId()));
+		return "redirect:/checks/positions?id=" + checkId;
 	}
 }

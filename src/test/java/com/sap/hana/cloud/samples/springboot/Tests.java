@@ -81,6 +81,7 @@ public class Tests {
 		assertFalse("Чек удаляется при удалении позиции чека", found);
 	}
 
+
 	@Test
 	public void deletePosition_positionReallyDeleted() {
 		List<Check> checks = checkService.findAll();

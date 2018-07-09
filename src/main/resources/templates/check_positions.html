@@ -69,7 +69,9 @@
 							Изменить</a>
 					</td>
 					<td>
-						<a id="deletePosRef" class="btn btn-danger text-light" th:href="${position.id}">Удалить</a>
+						<a id="deletePosRef" class="btn btn-danger text-light"
+						   th:href="@{/checks/positions/find(id=${position.id})}">Удалить
+						</a>
 					</td>
 				</tr>
 				</tbody>

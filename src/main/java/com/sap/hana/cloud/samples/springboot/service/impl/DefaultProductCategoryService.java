@@ -29,6 +29,11 @@ public class DefaultProductCategoryService implements ProductCategoryService {
 	}
 
 	@Override
+	public ProductCategory findByName(String name) {
+		return repository.findByName(name);
+	}
+
+	@Override
 	public ProductCategory save(ProductCategory category) {
 		return repository.save(category);
 	}
