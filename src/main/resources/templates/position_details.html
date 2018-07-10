@@ -36,38 +36,53 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-12">
-			<h3 class="text-center" th:text="'Номер позиции:  ' + ${position.number}">Номер позиции</h3>
+		<form th:action="@{/checks/positions/save}" th:object="${position}" method="post" role="form"
+			  data-toggle="validator" autocomplete="off">
+			<div class="col-12">
+				<h3 class="text-center" th:text="'Номер позиции:  ' + ${position.number}">Номер позиции</h3>
 
-			<div class="form-group">
-				<label for="number" class="col-form-label">Номер</label>
-				<input id="number" name="number" value="" class="form-control" type="input" placeholder="Номер">
-			</div>
+				<div class="form-group" hidden>
+					<label for="id" class="col-form-label">Id</label>
+					<input id="id" name="id" th:value="${position.id}" class="form-control" type="input"
+						   placeholder="Id">
+				</div>
 
-			<div class="form-group">
-				<label for="product" class="col-form-label">Наименование продукта</label>
-				<input id="product" name="product" value="" class="form-control" type="input" placeholder="Продукт">
-			</div>
+				<div class="form-group">
+					<label for="number" class="col-form-label">Номер</label>
+					<input id="number" name="number" th:value="${position.number}" class="form-control" type="input"
+						   placeholder="Номер">
+				</div>
 
-			<div class="form-group">
-				<label for="amount" class="col-form-label">Количество</label>
-				<input id="amount" name="amount" value="" class="form-control" type="input" placeholder="Количество">
-			</div>
+				<div class="form-group">
+					<label for="product" class="col-form-label">Наименование продукта</label>
+					<input id="product" name="product" th:value="${position.product.name}" class="form-control"
+						   type="input"
+						   placeholder="Продукт">
+				</div>
 
-			<div class="form-group">
-				<label for="price" class="col-form-label">Цена</label>
-				<input id="price" name="price" value="" class="form-control" type="input" placeholder="Цена">
+				<div class="form-group">
+					<label for="amount" class="col-form-label">Количество</label>
+					<input id="amount" name="amount" th:value="${position.amount}" class="form-control" type="input"
+						   placeholder="Количество">
+				</div>
+
+				<div class="form-group">
+					<label for="price" class="col-form-label">Цена</label>
+					<input id="price" name="price" th:value="${position.price}" class="form-control" type="input"
+						   placeholder="Цена">
+				</div>
 			</div>
-		</div>
+			<div class="btn-bar">
+				<input type="submit" class="btn btn-primary text-light" value="Изменить">
+				<a
+						th:href="@{/checks/{checkId}/positions/{posId}/save(checkId=${position.check.id},checkId=${position.id})}"
+						class="btn btn-success text-light">Отмена</a>
+			</div>
+		</form>
+
 	</div>
 </div>
 
-<div class="row">
-	<div class="btn-bar">
-		<a th:href="@{/save}" class="btn btn-primary text-light">Изменить</a>
-		<a th:href="@{/checks/positions/(id=${position.check.id})}" class="btn btn-success text-light">Отмена</a>
-	</div>
-</div>
 
 <script src="../static/js/checks.js" th:src="@{/js/checks.js}"></script>
 

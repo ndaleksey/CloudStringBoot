@@ -65,12 +65,12 @@
 
 					<td>
 						<a class="btn btn-primary text-light"
-						   th:href="@{/checks/positions/details/(id=${position.id})}">
+						   th:href="@{/checks/{checkId}/positions/{posId}/details(checkId=${position.check.id},posId=${position.id})}">
 							Изменить</a>
 					</td>
 					<td>
 						<a id="deletePosRef" class="btn btn-danger text-light"
-						   th:href="@{/checks/positions/find(id=${position.id})}">Удалить
+						   th:href="@{/checks/{checkId}/positions/find(checkId=${position.check.id},posId=${position.id})}">Удалить
 						</a>
 					</td>
 				</tr>

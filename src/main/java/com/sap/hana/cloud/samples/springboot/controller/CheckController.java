@@ -6,10 +6,12 @@ import com.sap.hana.cloud.samples.springboot.service.CheckPositionService;
 import com.sap.hana.cloud.samples.springboot.service.CheckService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,22 +31,23 @@ public class CheckController {
 	}
 
 	@GetMapping
-	public String showChecks(Model model, @RequestParam(defaultValue = "0") int page) {
+	public ModelAndView showChecks(ModelMap model, @RequestParam(defaultValue = "0") int page) {
 		model.addAttribute("checks", checkService.findByPage(page, 10));
-		return "checks";
+		return new ModelAndView("checks", model);
 	}
 
-	@GetMapping("/positions")
-	public String showCheckPositions(Long id, Model model) {
+	@GetMapping("/{id}/positions")
+	public ModelAndView showCheckPositions(@PathVariable("id") Long id, ModelMap model) {
 		Check check = checkService.findById(id);
 
-		if (check == null) return "Error";
+		if (check == null) return new ModelAndView("error");
 
 		List<CheckPosition> positions = check.getPositions().stream().sorted(Comparator.comparing(p -> p.getNumber())
 		).collect(Collectors.toList());
+
 		model.addAttribute("check", check);
 		model.addAttribute("positions", positions);
-		return "check_positions";
+		return new ModelAndView("check_positions", model);
 	}
 
 	@PostMapping(path = "/save", consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -60,31 +63,49 @@ public class CheckController {
 		return "redirect:/checks";
 	}
 
-	@GetMapping(path = "/find")
+	@GetMapping("/{id}")
 	@ResponseBody
-	public Check find(Long id) {
+	public Check findCheckById(@PathVariable("id") Long id) {
 		return checkService.findById(id);
 	}
 
-	@GetMapping(path = "/positions/find")
+	@GetMapping("/{id}/details")
+	public String showCheckDetails(@PathVariable("id") Long id, ModelMap model){
+		Check check = checkService.findById(id);
+		model.addAttribute("check", check);
+
+		return "check";
+	}
+
+	@GetMapping("/{checkId}/positions/{posId}")
 	@ResponseBody
-	public CheckPosition findPosition(Long id) {
-		return positionService.findById(id);
+	public CheckPosition findPositionById(@PathVariable("checkId") Long checkId, @PathVariable("posId") Long posId) {
+		return positionService.findById(posId);
 	}
 
-	@GetMapping("/positions/details")
-	public String showPositionDetails(Long id, Model model) {
-		model.addAttribute("position", positionService.findById(id));
-		return "position_details";
+	@GetMapping("/{checkId}/positions/{posId}/details")
+	public ModelAndView showPositionDetails(@PathVariable("checkId") Long checkId, @PathVariable("posId") Long posId,
+											ModelMap model) {
+		CheckPosition position = positionService.findById(posId);
+		model.addAttribute("position", position);
+
+		return new ModelAndView("position_details", model);
 	}
 
-	@PostMapping("/positions/save")
-	@ResponseBody
-	public CheckPosition save(@RequestBody CheckPosition position) {
-		return positionService.save(position);
+	@PostMapping(value = "/{checkId}/positions/{posId}/save", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+	public ModelAndView save(@PathVariable("checkId") Long checkId, @PathVariable("posId") Long posId, @Valid
+			CheckPosition position, BindingResult bindingResult) {
+
+		if (bindingResult.hasErrors()) return new ModelAndView("error");
+
+		Check check = checkService.findById(checkId);
+		position.setCheck(check);
+		positionService.save(position);
+
+		return new ModelAndView("positions");
 	}
 
-	@DeleteMapping(value = "/positions/delete", consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	@DeleteMapping(value = "/{checkId}/positions/{posId}/delete", consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 	@ResponseBody
 	public CheckPosition deletePosition(@RequestBody CheckPosition position) {
 		position = positionService.findById(position.getId());
