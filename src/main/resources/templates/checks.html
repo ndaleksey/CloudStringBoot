@@ -47,8 +47,8 @@
 					<th>Номер магазина</th>
 					<th>Итоговая цена</th>
 					<th>Статус</th>
-					<th>Список товаров</th>
 
+					<th></th>
 					<th></th>
 					<th></th>
 				</tr>
@@ -60,20 +60,41 @@
 					<td th:text="${#temporals.format(check.registrationTime, 'HH:mm:ss dd.MM.yyyy')}"></td>
 					<td th:text="${check.shopNumber}"></td>
 					<td th:text="${check.totalPrice}"></td>
-					<td
-							th:text="${check.status == T(com.sap.hana.cloud.samples.springboot.model.check.CheckStatus).CREATED ? 'Создан' : 'Обработан'}"></td>
+					<td th:text="${check.status == T(com.sap.hana.cloud.samples.springboot.model.check.CheckStatus).CREATED ? 'Создан' : 'Обработан'}"></td>
 					<td>
 						<a id="showPositionsButton" th:href="@{/checks/{id}/positions(id=${check.id})}"
 						   class="btn btn-info">Список товаров</a></td>
 					<td>
-						<a class="btn btn-primary editButton" th:href="@{/checks/{id}(id=${check.id})}">Изменить</a>
+						<a class="btn btn-primary editButton" th:href="@{/checks/{id}/details(id=${check.id})}">
+							Изменить</a>
 					</td>
 					<td>
-						<a class="btn btn-danger deleteButton" th:href="@{/checks/delete/(id=${check.id})}">Удалить</a>
+						<a id="delCheckRef" class="btn btn-danger deleteButton"
+						   th:href="@{/checks/{id}(id=${check.id})}">Удалить</a>
 					</td>
 				</tr>
 				</tbody>
 			</table>
+		</div>
+	</div>
+</div>
+
+<div id="deleteCheckDialog" class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Удаление чека</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>Вы действительно хотите удалить чек?</p>
+			</div>
+			<div class="modal-footer">
+				<button id="applyCheckDelBtn" class="btn btn-danger" type="button">Удалить</button>
+				<button class="btn btn-secondary" type="button" data-dismiss="modal">Отмена</button>
+			</div>
 		</div>
 	</div>
 </div>

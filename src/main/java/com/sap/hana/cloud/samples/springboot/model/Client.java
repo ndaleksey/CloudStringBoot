@@ -1,10 +1,13 @@
 package com.sap.hana.cloud.samples.springboot.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sap.hana.cloud.samples.springboot.model.check.Check;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Shishkov A.V. on 08.06.18.
@@ -52,6 +55,9 @@ public class Client {
 
 	@Column(name = "score")
 	private double score;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Check> checks = new HashSet<>();
 
 	public Client() {
 	}
@@ -158,5 +164,9 @@ public class Client {
 
 	public void setScore(double score) {
 		this.score = score;
+	}
+
+	public Set<Check> getChecks() {
+		return checks;
 	}
 }

@@ -3,6 +3,51 @@ $(document).ready(function () {
 	console.log("REFRESH")
 
 	var position;
+	var check;
+
+	$('.table #checkListDialog').on('click', function (event) {
+		event.preventDefault();
+
+		var href = $(this).attr('href');
+		$.get(href, function (checkList, status) {
+			console.log(checkList);
+		})
+	});
+
+	$('.table #delCheckRef').on('click', function (event) {
+		event.preventDefault();
+
+		var href = $(this).attr('href');
+
+		$.get(href, function (ch, status) {
+			check = ch;
+		});
+		$('#deleteCheckDialog').modal();
+	});
+
+	$('.modal #applyCheckDelBtn').on('click', function (event) {
+		event.preventDefault();
+
+		var checkJSON = JSON.stringify(check);
+		console.log(checkJSON);
+
+		$.ajax({
+			url: "/checks",
+			method: "DELETE",
+			data: checkJSON,
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			success: function () {
+				location.reload(true);
+			},
+			error: function (obj, status, error) {
+				console.log('status: ' + status);
+				console.log('error: ' + error);
+			}
+		});
+
+		$('.modal #deleteCheckDialog').modal('hide');
+	});
 
 	$('.table #deletePosRef').on('click', function (event) {
 		event.preventDefault();

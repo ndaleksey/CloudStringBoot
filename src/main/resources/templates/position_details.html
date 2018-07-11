@@ -7,10 +7,6 @@
 			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 			crossorigin="anonymous"></script>
 
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-			integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-			crossorigin="anonymous"></script>
-
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 		  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
@@ -49,7 +45,7 @@
 
 				<div class="form-group">
 					<label for="number" class="col-form-label">Номер</label>
-					<input id="number" name="number" th:field="${position.number}" class="form-control" type="text"
+					<input id="number" name="number" th:field="*{number}" class="form-control" type="text"
 						   placeholder="Номер">
 				</div>
 
@@ -72,21 +68,18 @@
 				</div>
 			</div>
 			<div class="btn-bar">
-				<input type="submit" class="btn btn-primary text-light" value="Изменить">
-				<a
-						th:href="@{/checks/{checkId}/positions/{posId}/save(checkId=${position.check.id},checkId=${position.id})}"
-						class="btn btn-success text-light">Отмена</a>
+				<a th:href="@{/checks/{checkId}/positions(checkId=${position.check.id})}"
+				   class="btn btn-primary text-light">Назад</a>
+				<input type="submit" class="btn btn-success text-light" value="Изменить">
 			</div>
 		</form>
 
 	</div>
 </div>
 
-
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="></script>
 <script src="../static/js/checks.js" th:src="@{/js/checks.js}"></script>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-	  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>

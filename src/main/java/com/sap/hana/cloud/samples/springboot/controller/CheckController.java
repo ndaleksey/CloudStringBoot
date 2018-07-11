@@ -2,6 +2,7 @@ package com.sap.hana.cloud.samples.springboot.controller;
 
 import com.sap.hana.cloud.samples.springboot.model.check.Check;
 import com.sap.hana.cloud.samples.springboot.model.check.CheckPosition;
+import com.sap.hana.cloud.samples.springboot.model.check.CheckStatus;
 import com.sap.hana.cloud.samples.springboot.service.CheckPositionService;
 import com.sap.hana.cloud.samples.springboot.service.CheckService;
 import org.springframework.http.MediaType;
@@ -34,6 +35,12 @@ public class CheckController {
 	public ModelAndView showChecks(ModelMap model, @RequestParam(defaultValue = "0") int page) {
 		model.addAttribute("checks", checkService.findByPage(page, 10));
 		return new ModelAndView("checks", model);
+	}
+
+	@GetMapping("/list")
+	@ModelAttribute("checks")
+	public List<Check> getCheckList(){
+		return checkService.findAll();
 	}
 
 	@GetMapping("/{id}/positions")
@@ -69,12 +76,33 @@ public class CheckController {
 		return checkService.findById(id);
 	}
 
+	@DeleteMapping(consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	@ResponseBody
+	public Check deleteCheck(@RequestBody Check check) {
+		check = checkService.findById(check.getId());
+		checkService.delete(Long.valueOf(check.getId()));
+		return check;
+	}
+
 	@GetMapping("/{id}/details")
 	public String showCheckDetails(@PathVariable("id") Long id, ModelMap model) {
 		Check check = checkService.findById(id);
 		model.addAttribute("check", check);
+		model.addAttribute("statuses", CheckStatus.values());
 
-		return "check";
+		return "check_details";
+	}
+
+	@PostMapping(value = "/{id}/save", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+	public String saveCheck(@PathVariable("id") Long id, @ModelAttribute Check check, BindingResult result) {
+//		if (result.hasErrors()) return "error";
+
+		Check oldCheck = checkService.findById(id);
+		oldCheck.setShopNumber(check.getShopNumber());
+		oldCheck.setStatus(check.getStatus());
+		checkService.save(oldCheck);
+
+		return "redirect:/checks";
 	}
 
 	@GetMapping("/positions/{posId}")
@@ -93,7 +121,7 @@ public class CheckController {
 	}
 
 	@PostMapping(value = "/{checkId}/positions/{posId}/save", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-	public String save(@PathVariable("checkId") Long checkId, @PathVariable("posId") Long posId, @Valid
+	public String savePosition(@PathVariable("checkId") Long checkId, @PathVariable("posId") Long posId, @Valid
 	@ModelAttribute("position") CheckPosition position, BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) return "error";

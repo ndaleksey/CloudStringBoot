@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Детали чека</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+</head>
+<body>
+<div class="container-fluid">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="index_old.html" th:href="@{/index}">
+			<img src="https://picsum.photos/30"/>
+		</a>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="btn btn-primary" href="/clients" th:href="@{/clients}">Список клиентов</a>
+					<a class="btn btn-primary" href="/checks" th:href="@{/checks}">Список чеков</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<form th:action="@{/checks/{id}/save(id=${check.id})}"
+				  th:object="${check}" method="post" role="form" data-toggle="validator" autocomplete="off">
+				<div class="col-12">
+					<h3 class="text-center" th:text="'Чек №:  ' + ${check.number}">Номер</h3>
+
+					<div class="form-group" hidden>
+						<label for="id" class="col-form-label">Id</label>
+						<input id="id" name="id" th:field="*{id}" class="form-control" type="text"
+							   placeholder="Id">
+					</div>
+
+					<div class="form-group">
+						<label for="number" class="col-form-label">Номер магазина</label>
+						<input id="number" name="number" th:field="*{shopNumber}" class="form-control" type="text"
+							   placeholder="Номер">
+					</div>
+
+					<div class="form-group">
+						<label for="product" class="col-form-label">Статус</label>
+						<select id="product" th:field="*{status}" class="form-control">
+							<option th:each="s : ${statuses}" th:value="${s}"
+									th:text="${s==T(com.sap.hana.cloud.samples.springboot.model.check.CheckStatus).CREATED} ? 'Создан' : 'Обработан'"/>
+						</select>
+					</div>
+				</div>
+				<div class="btn-bar">
+					<a th:href="@{/checks}" class="btn btn-primary text-light">Назад</a>
+					<input type="submit" class="btn btn-success text-light" value="Изменить">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"></script>
+
+</body>
+</html>
