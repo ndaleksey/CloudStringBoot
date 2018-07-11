@@ -36,39 +36,38 @@
 
 <div class="container">
 	<div class="row">
-		<form th:action="@{/checks/positions/save}" th:object="${position}" method="post" role="form"
-			  data-toggle="validator" autocomplete="off">
+		<form th:action="@{/checks/{checkId}/positions/{posId}/save(checkId=${position.check.id},posId=${position.id})}"
+			  th:object="${position}" method="post" role="form" data-toggle="validator" autocomplete="off">
 			<div class="col-12">
 				<h3 class="text-center" th:text="'Номер позиции:  ' + ${position.number}">Номер позиции</h3>
 
 				<div class="form-group" hidden>
 					<label for="id" class="col-form-label">Id</label>
-					<input id="id" name="id" th:value="${position.id}" class="form-control" type="input"
+					<input id="id" name="id" th:field="*{id}" class="form-control" type="text"
 						   placeholder="Id">
 				</div>
 
 				<div class="form-group">
 					<label for="number" class="col-form-label">Номер</label>
-					<input id="number" name="number" th:value="${position.number}" class="form-control" type="input"
+					<input id="number" name="number" th:field="${position.number}" class="form-control" type="text"
 						   placeholder="Номер">
 				</div>
 
 				<div class="form-group">
 					<label for="product" class="col-form-label">Наименование продукта</label>
-					<input id="product" name="product" th:value="${position.product.name}" class="form-control"
-						   type="input"
-						   placeholder="Продукт">
+					<input id="product" name="product" th:field="*{product.name}" class="form-control"
+						   type="text" placeholder="Продукт" readonly>
 				</div>
 
 				<div class="form-group">
 					<label for="amount" class="col-form-label">Количество</label>
-					<input id="amount" name="amount" th:value="${position.amount}" class="form-control" type="input"
+					<input id="amount" name="amount" th:field="*{amount}" class="form-control" type="text"
 						   placeholder="Количество">
 				</div>
 
 				<div class="form-group">
 					<label for="price" class="col-form-label">Цена</label>
-					<input id="price" name="price" th:value="${position.price}" class="form-control" type="input"
+					<input id="price" name="price" th:field="*{price}" class="form-control" type="text"
 						   placeholder="Цена">
 				</div>
 			</div>

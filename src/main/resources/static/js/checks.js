@@ -22,8 +22,8 @@ $(document).ready(function () {
 		console.log(positionJSON);
 
 		$.ajax({
-			url: "/checks/positions/delete",
-			type: "DELETE",
+			url: "/checks/positions",
+			method: "DELETE",
 			data: positionJSON,
 			dataType: "json",
 			contentType: "application/json; charset=utf-8",

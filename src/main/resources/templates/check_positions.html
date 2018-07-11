@@ -70,12 +70,18 @@
 					</td>
 					<td>
 						<a id="deletePosRef" class="btn btn-danger text-light"
-						   th:href="@{/checks/{checkId}/positions/find(checkId=${position.check.id},posId=${position.id})}">Удалить
+						   th:href="@{/checks/positions/{id}(id=${position.id})}">Удалить
 						</a>
 					</td>
 				</tr>
 				</tbody>
 			</table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="btn-bar">
+			<a th:href="@{/checks}" class="btn btn-primary text-light">Назад</a>
+			<a th:href="@{/checks}" class="btn btn-success text-light">Добавить</a>
 		</div>
 	</div>
 </div>
@@ -84,7 +90,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Modal title</h5>
+				<h5 class="modal-title">Удаление позиции</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -97,13 +103,6 @@
 				<button class="btn btn-secondary" type="button" data-dismiss="modal">Отмена</button>
 			</div>
 		</div>
-	</div>
-</div>
-
-<div class="row">
-	<div class="btn-bar">
-		<a th:href="@{/checks}" class="btn btn-primary text-light">Назад</a>
-		<a th:href="@{/checks}" class="btn btn-success text-light">Добавить</a>
 	</div>
 </div>
 
