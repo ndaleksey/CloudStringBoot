@@ -88,7 +88,37 @@ $(document).ready(function () {
 		$('.deleteDialog #deleteRef').attr('href', href);
 		$('.deleteDialog #deleteClientModal').modal();
 	});
+
+	$('.checksShowRef').on('click', function (event) {
+		event.preventDefault();
+
+		var href = $(this).attr('href');
+
+		$.ajax(href, {
+			success: function (data) {
+				$('.modal :checkbox').each(function () {
+					$(this).removeProp('checked');
+
+					var id = parseInt(getId($(this).prop('id'), 'check_'));
+					if (data.includes(id))
+						$(this).prop('checked', true);
+					else
+						$(this).prop('checked', false);
+				});
+			},
+			error: function (textStatus, errorThrown) {
+				console.log(textStatus);
+				console.log(errorThrown);
+			}
+		});
+
+		$('#checkListDialog').modal('show');
+	});
 });
+
+function getId(name, pattern) {
+	return name.split(pattern)[1];
+}
 
 function getNormalizedDate(date, oldSep, newSep) {
 	var dateArray = date.split(oldSep);

@@ -1,5 +1,6 @@
 package com.sap.hana.cloud.samples.springboot.service.impl;
 
+import com.sap.hana.cloud.samples.springboot.dao.CheckRepository;
 import com.sap.hana.cloud.samples.springboot.dao.ClientRepository;
 import com.sap.hana.cloud.samples.springboot.model.Client;
 import com.sap.hana.cloud.samples.springboot.service.ClientService;
@@ -19,6 +20,9 @@ import java.util.stream.StreamSupport;
 public class DefaultClientService implements ClientService {
 	@Autowired
 	private ClientRepository repository;
+
+	@Autowired
+	private CheckRepository checkRepository;
 
 	@Override
 	public List<Client> findAll() {

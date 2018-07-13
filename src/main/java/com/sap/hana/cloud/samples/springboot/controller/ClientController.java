@@ -4,11 +4,15 @@ import com.sap.hana.cloud.samples.springboot.model.Client;
 import com.sap.hana.cloud.samples.springboot.service.CheckService;
 import com.sap.hana.cloud.samples.springboot.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -47,6 +51,14 @@ public class ClientController {
 	@ResponseBody
 	public Client find(Long id) {
 		return clientService.findById(id);
+	}
+
+	@GetMapping("/{id}/checks")
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public Long[] getChecksByClientId(@PathVariable("id") Long id) {
+		List<Long> list = clientService.findById(id).getChecks().stream().map(c -> c.getId()).collect(Collectors.toList());
+		return list.toArray(new Long[list.size()]);
 	}
 
 	/*@DeleteMapping(path = "/delete/{id}")

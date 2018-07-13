@@ -32,9 +32,11 @@ public class Check {
 	@Column(name = "status", columnDefinition = "smallint")
 	private CheckStatus status;
 
-	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "check", orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "check", orphanRemoval = true)
 	@JsonManagedReference
 	private Set<CheckPosition> positions = new HashSet<>();
+
+	private boolean isChecked;
 
 	public Check() {
 	}
@@ -103,5 +105,13 @@ public class Check {
 
 	public void setPositions(Set<CheckPosition> positions) {
 		this.positions = positions;
+	}
+
+	public boolean isChecked() {
+		return isChecked;
+	}
+
+	public void setChecked(boolean checked) {
+		isChecked = checked;
 	}
 }
