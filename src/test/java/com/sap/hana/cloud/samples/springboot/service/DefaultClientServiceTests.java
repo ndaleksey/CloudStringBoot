@@ -34,13 +34,21 @@ public class DefaultClientServiceTests {
 		clientService.save(client);
 	}
 
+	@Test(expected = Exception.class)
+	public void exception_whenSaveExistedClient() {
+		Client client = clientService.findAll().get(0);
+		clientService.save(client);
+	}
+
 	@Test
-	public void saveClientWithExistedCheckId() {
+	public void saveClientWithExistedCheck() {
 		Client client = new Client("Alex", "Dreamer", "Father", Gender.MALE, LocalDate.of(2000, 11, 23), "email@mail" +
 				".com", "123232323", "Moscow");
 
+		client = clientService.save(client);
+
 		Check firstCheck = checkService.findAll().get(0);
-		client.getChecks().add(firstCheck);
+		client.addCheck(firstCheck);
 		client = clientService.save(client);
 		client = clientService.findById(client.getId());
 

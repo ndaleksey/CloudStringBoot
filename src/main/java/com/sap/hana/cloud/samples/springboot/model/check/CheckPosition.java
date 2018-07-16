@@ -30,7 +30,7 @@ public class CheckPosition {
 	private double price;
 
 	@ManyToOne
-	@JoinColumn(nullable = false)
+	@JoinColumn(name = "check_id", nullable = false)
 	@JsonBackReference
 	private Check check;
 

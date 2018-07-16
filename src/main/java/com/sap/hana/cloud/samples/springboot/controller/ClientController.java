@@ -46,8 +46,8 @@ public class ClientController {
 	@PostMapping(path = "/{id}/attach_checks", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
 	@ResponseStatus
 	public ResponseEntity<Client> attacheChecksToClient(@RequestBody Long[] checks, BindingResult
-			bindingResult, @PathVariable("id")Long id) {
-		Client client = clientService.findById(id);
+			bindingResult, @PathVariable("id")Long clientId) {
+		Client client = clientService.findById(clientId);
 		client.getChecks().clear();
 
 		for (Long checkId : checks) {

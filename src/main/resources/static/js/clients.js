@@ -117,7 +117,6 @@ $(document).ready(function () {
 	});
 
 	$('#attachChecksRef').on('click', function (event) {
-		console.log("ATTACHED")
 		event.preventDefault();
 
 		var checks = [];
@@ -129,8 +128,6 @@ $(document).ready(function () {
 			}
 		});
 
-		debugger
-
 		$.ajax({
 			url: '/clients/' + selectedClient + '/attach_checks',
 			type: 'POST',
@@ -138,10 +135,11 @@ $(document).ready(function () {
 			dataType: "json",
 			contentType: "application/json; charset=utf-8",
 			success: function () {
-				console.log('SUCCESS');
+				$('#checkListDialog').modal('hide');
 			},
 			error: function () {
 				console.log('ERROR');
+                $('#checkListDialog').modal('hide');
 			}
 		});
 	})

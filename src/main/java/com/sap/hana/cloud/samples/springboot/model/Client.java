@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -56,8 +57,7 @@ public class Client {
 	@Column(name = "score")
 	private double score;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Check.class)
-	@JoinColumn(name = "check_id")
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, targetEntity = Check.class)
 	private Set<Check> checks = new HashSet<>();
 
 	public Client() {
@@ -169,5 +169,27 @@ public class Client {
 
 	public Set<Check> getChecks() {
 		return checks;
+	}
+
+	public void addCheck(Check check) {
+		if (check == null) throw new NullPointerException();
+
+		if (checks.isEmpty())
+			checks.add(check);
+		else {
+			if (checks.contains(check)) return;
+
+			if (!checks.stream().anyMatch(ch -> ch.getId() == check.getId())) {
+				checks.add(check);
+			} else {
+				Iterator<Check> iterator = checks.iterator();
+				while (iterator.hasNext()) {
+					if (iterator.next().getId() == check.getId()) {
+						iterator.remove();
+					}
+				}
+				checks.add(check);
+			}
+		}
 	}
 }
