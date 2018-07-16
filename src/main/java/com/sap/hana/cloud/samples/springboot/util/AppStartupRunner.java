@@ -120,6 +120,11 @@ public class AppStartupRunner implements ApplicationRunner {
 		CheckPosition position43 = new CheckPosition(check4, "3", carrot, 1, 40);
 		check4.getPositions().addAll(Arrays.asList(position41, position42, position43));
 
+		/*check1 = checkService.save(check1);
+		check2 = checkService.save(check2);
+		check3 = checkService.save(check3);
+		check4 = checkService.save(check4);*/
+
 		Client client1 = new Client(
 				"Владимир",
 				"Семенов",

@@ -3,6 +3,7 @@ $(document).ready(function () {
 	console.log("REFRESH")
 
 	// $('#birthday').datepicker();
+	var selectedClient;
 
 	$('.saveDialog #saveDetailsButton').on('click', function (event) {
 		event.preventDefault();
@@ -91,7 +92,7 @@ $(document).ready(function () {
 
 	$('.checksShowRef').on('click', function (event) {
 		event.preventDefault();
-
+		selectedClient = $(this).attr('data');
 		var href = $(this).attr('href');
 
 		$.ajax(href, {
@@ -114,6 +115,36 @@ $(document).ready(function () {
 
 		$('#checkListDialog').modal('show');
 	});
+
+	$('#attachChecksRef').on('click', function (event) {
+		console.log("ATTACHED")
+		event.preventDefault();
+
+		var checks = [];
+
+		$('.modal :checkbox').each(function () {
+			if ($(this).prop('checked') == true) {
+				var id = parseInt(getId($(this).prop('id'), 'check_'));
+				checks.push(id);
+			}
+		});
+
+		debugger
+
+		$.ajax({
+			url: '/clients/' + selectedClient + '/attach_checks',
+			type: 'POST',
+			data: JSON.stringify(checks),
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			success: function () {
+				console.log('SUCCESS');
+			},
+			error: function () {
+				console.log('ERROR');
+			}
+		});
+	})
 });
 
 function getId(name, pattern) {

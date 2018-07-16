@@ -1,11 +1,13 @@
 package com.sap.hana.cloud.samples.springboot.controller;
 
 import com.sap.hana.cloud.samples.springboot.model.Client;
+import com.sap.hana.cloud.samples.springboot.model.check.Check;
 import com.sap.hana.cloud.samples.springboot.service.CheckService;
 import com.sap.hana.cloud.samples.springboot.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,6 +41,22 @@ public class ClientController {
 	public Client addClient(@RequestBody Client client, BindingResult result) {
 		clientService.save(client);
 		return client;
+	}
+
+	@PostMapping(path = "/{id}/attach_checks", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+	@ResponseStatus
+	public ResponseEntity<Client> attacheChecksToClient(@RequestBody Long[] checks, BindingResult
+			bindingResult, @PathVariable("id")Long id) {
+		Client client = clientService.findById(id);
+		client.getChecks().clear();
+
+		for (Long checkId : checks) {
+			Check check = checkService.findById(checkId);
+
+			if (check != null)
+				client.getChecks().add(check);
+		}
+		return new ResponseEntity<>(clientService.save(client), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/delete")

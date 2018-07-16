@@ -57,6 +57,7 @@ public class Client {
 	private double score;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Check.class)
+	@JoinColumn(name = "check_id")
 	private Set<Check> checks = new HashSet<>();
 
 	public Client() {

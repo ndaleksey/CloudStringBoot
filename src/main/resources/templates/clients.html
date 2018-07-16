@@ -70,8 +70,8 @@
 					<td
 							th:text="${client.status==T(com.sap.hana.cloud.samples.springboot.model.ClientStatus).ACTIVE?'Активный':'Неактивный'}"></td>
 					<td>
-						<a class="btn btn-info checksShowRef" th:href="@{/clients/{id}/checks(id=${client.id})}">
-							Чеки</a>
+						<a class="btn btn-info checksShowRef" th:data="${client.id}"
+						   th:href="@{/clients/{id}/checks(id=${client.id})}">Чеки</a>
 					</td>
 					<td>
 						<a class="btn btn-primary editButton" th:href="@{/clients/find/(id=${client.id})}">Изменить</a>
@@ -103,6 +103,7 @@
 				<div class="modal-body">
 					<div class="container">
 						<div class="row">
+							<input id="clientId" value="" hidden>
 							<table class="table table-hover">
 								<thead>
 								<tr>
@@ -132,7 +133,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary">Сохранить</button>
+					<a class="btn btn-primary" id="attachChecksRef" href="">Сохранить</a>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
 				</div>
 			</div>
