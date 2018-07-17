@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +51,7 @@ public class DefaultProductService implements ProductService {
 		return products;
 	}
 
+	@Transient
 	@Override
 	public void delete(Long id) {
 		productRepository.deleteById(id);

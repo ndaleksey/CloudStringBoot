@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -59,9 +60,10 @@ public class DefaultProductServiceTests {
 
 	@Test
 	public void findByName() {
-		Product product = service.save(new Product("Утка", new ProductCategory("Мясо")));
-		product = service.findByName(product.getName());
-		assertNotNull(product, "Продукт с именем " + product.getName() + " не найден");
+		Product product = service.findAll().get(0);
+		Product dbProduct = service.findByName(product.getName());
+		assertEquals(product.getName(), dbProduct.getName(), "В базе не найден продукт по имени: " + product
+				.getName());
 	}
 
 	@Test
@@ -74,9 +76,12 @@ public class DefaultProductServiceTests {
 
 	@Test
 	public void delete() {
-		Product product = service.save(new Product("Утка", new ProductCategory("Мясо")));
+		/*Product product = service.save(new Product("Утка", new ProductCategory("Мясо")));
 		service.delete(product.getId());
-		assertNull(service.findById(product.getId()));
+		assertNull(service.findById(product.getId()));*/
+		Product product = service.findAll().get(0);
+		service.delete(product.getId());
+		assertNull(service.findById(product.getId()), "Объект продукта не удалился из БД");
 	}
 
 	@Test(expected = Exception.class)

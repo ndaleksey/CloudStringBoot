@@ -13,6 +13,7 @@ import java.util.Set;
 /**
  * Created by Shishkov A.V. on 08.06.18.
  */
+//@EntityListeners(ClientEntityListener.class)
 @Entity
 @Table(name = "client")
 public class Client {
@@ -54,8 +55,8 @@ public class Client {
 	@Enumerated
 	private ClientStatus status;
 
-	@Column(name = "score")
-	private double score;
+	/*@Column(name = "score")
+	private double score;*/
 
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, targetEntity = Check.class)
 	private Set<Check> checks = new HashSet<>();
@@ -159,13 +160,19 @@ public class Client {
 		this.status = status;
 	}
 
-	public double getScore() {
-		return score;
+	@Transient
+	public int getScore() {
+		double percent = 5 * 1e-2;
+		double amount = 0;
+		for (Check check : checks) {
+			amount += check.getTotalPrice();
+		}
+		return (int) Math.floor(amount * percent);
 	}
 
-	public void setScore(double score) {
+	/*public void setScore(double score) {
 		this.score = score;
-	}
+	}*/
 
 	public Set<Check> getChecks() {
 		return checks;
